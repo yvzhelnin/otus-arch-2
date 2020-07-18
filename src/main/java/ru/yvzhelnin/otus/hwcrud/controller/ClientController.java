@@ -16,7 +16,7 @@ import ru.yvzhelnin.otus.hwcrud.service.ClientService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/api/client")
 public class ClientController {
 
     private final ClientService clientService;
