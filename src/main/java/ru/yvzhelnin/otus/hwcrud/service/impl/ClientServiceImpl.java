@@ -1,6 +1,7 @@
 package ru.yvzhelnin.otus.hwcrud.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.yvzhelnin.otus.hwcrud.dto.ClientRequestDto;
 import ru.yvzhelnin.otus.hwcrud.dto.ClientResponseDto;
 import ru.yvzhelnin.otus.hwcrud.exception.ClientNotFoundException;
@@ -19,6 +20,7 @@ public class ClientServiceImpl implements ClientService {
         this.clientRepository = clientRepository;
     }
 
+    @Transactional
     @Override
     public UUID createClient(ClientRequestDto clientRequestDto) {
         final UUID clientId = UUID.randomUUID();
@@ -33,6 +35,7 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.save(client).getId();
     }
 
+    @Transactional
     @Override
     public ClientResponseDto updateClient(UUID clientId, ClientRequestDto clientRequestDto) throws ClientNotFoundException {
         final Client client = clientRepository.findById(clientId)
@@ -62,11 +65,13 @@ public class ClientServiceImpl implements ClientService {
                 updatedClient.getPhone());
     }
 
+    @Transactional
     @Override
     public void deleteClient(UUID clientId) {
         clientRepository.deleteById(clientId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ClientResponseDto getClient(UUID clientId) throws ClientNotFoundException {
         final Client client = clientRepository.findById(clientId)
