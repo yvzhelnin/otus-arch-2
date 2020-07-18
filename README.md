@@ -5,4 +5,4 @@
 <p>docker push yvzhelnin/crud-app:v0.1</p>
 
 # Kubernetes
-<p>kubectl apply -f deployment.yml -f service.yml -f ingress.yml</p>
+<p>kubectl apply -f datasource_secrets.yml -f deployment.yml -f service.yml -f ingress.yml</p>

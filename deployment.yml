@@ -19,6 +19,22 @@ spec:
           ports:
             - name: web
               containerPort: 80
+          env:
+            - name: spring_datasource_username
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-secrets
+                  key: spring_datasource_username
+            - name: spring_datasource_password
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-secrets
+                  key: spring_datasource_password
+            - name: spring_datasource_url
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-secrets
+                  key: spring_datasource_url
           livenessProbe:
             httpGet:
               port: 80
