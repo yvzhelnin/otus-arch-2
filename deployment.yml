@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: crud-deployment
+  name: crud-appl-deployment
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      app: crud-java-app
+      app: crud-java-appl
   template:
     metadata:
       labels:
-        app: crud-java-app
+        app: crud-java-appl
     spec:
       containers:
-        - name: crud-java
-          image: yvzhelnin/crud-appl:v0.9
+        - name: crud-pod-java
+          image: yvzhelnin/crud-appl:v1.4
           imagePullPolicy: Always
           ports:
             - name: web
