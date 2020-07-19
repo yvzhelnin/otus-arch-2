@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: crud-java
-          image: yvzhelnin/crud-app:v0.6
+          image: yvzhelnin/crud-appl:v0.9
           imagePullPolicy: Always
           ports:
             - name: web
