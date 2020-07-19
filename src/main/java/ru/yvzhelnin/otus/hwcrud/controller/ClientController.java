@@ -13,8 +13,6 @@ import ru.yvzhelnin.otus.hwcrud.dto.ClientResponseDto;
 import ru.yvzhelnin.otus.hwcrud.exception.ClientNotFoundException;
 import ru.yvzhelnin.otus.hwcrud.service.ClientService;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/api/client")
 public class ClientController {
@@ -26,23 +24,23 @@ public class ClientController {
     }
 
     @PostMapping("/")
-    public UUID createClient(@RequestBody ClientRequestDto requestDto) {
+    public String createClient(@RequestBody ClientRequestDto requestDto) {
         return clientService.createClient(requestDto);
     }
 
     @GetMapping("/{clientId}")
-    public ClientResponseDto getClient(@PathVariable("clientId") UUID clientId) throws ClientNotFoundException {
+    public ClientResponseDto getClient(@PathVariable("clientId") String clientId) throws ClientNotFoundException {
         return clientService.getClient(clientId);
     }
 
     @PutMapping("/{clientId}")
-    public ClientResponseDto updateClient(@PathVariable("clientId") UUID clientId,
+    public ClientResponseDto updateClient(@PathVariable("clientId") String clientId,
                                           @RequestBody ClientRequestDto requestDto) throws ClientNotFoundException {
         return clientService.updateClient(clientId, requestDto);
     }
 
     @DeleteMapping("/{clientId}")
-    public String deleteClient(@PathVariable("clientId") UUID clientId) {
+    public String deleteClient(@PathVariable("clientId") String clientId) {
         clientService.deleteClient(clientId);
 
         return "Клиент с идентификатором " + clientId + " был удалён";

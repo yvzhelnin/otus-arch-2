@@ -3,13 +3,11 @@ package ru.yvzhelnin.otus.hwcrud.dto;
 import lombok.Getter;
 import org.springframework.data.annotation.Immutable;
 
-import java.util.UUID;
-
 @Immutable
 @Getter
 public class ClientResponseDto {
 
-    private final UUID uuid;
+    private final String clientId;
 
     private final String username;
 
@@ -21,8 +19,8 @@ public class ClientResponseDto {
 
     private final String phone;
 
-    public ClientResponseDto(UUID uuid, String username, String firstName, String lastName, String email, String phone) {
-        this.uuid = uuid;
+    public ClientResponseDto(String clientId, String username, String firstName, String lastName, String email, String phone) {
+        this.clientId = clientId;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;

@@ -4,15 +4,13 @@ import ru.yvzhelnin.otus.hwcrud.dto.ClientRequestDto;
 import ru.yvzhelnin.otus.hwcrud.dto.ClientResponseDto;
 import ru.yvzhelnin.otus.hwcrud.exception.ClientNotFoundException;
 
-import java.util.UUID;
-
 public interface ClientService {
 
-    UUID createClient(ClientRequestDto clientRequestDto);
+    String createClient(ClientRequestDto clientRequestDto);
 
-    ClientResponseDto updateClient(UUID clientId, ClientRequestDto clientRequestDto) throws ClientNotFoundException;
+    ClientResponseDto updateClient(String clientId, ClientRequestDto clientRequestDto) throws ClientNotFoundException;
 
-    void deleteClient(UUID clientId);
+    void deleteClient(String clientId);
 
-    ClientResponseDto getClient(UUID clientId) throws ClientNotFoundException;
+    ClientResponseDto getClient(String clientId) throws ClientNotFoundException;
 }

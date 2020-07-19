@@ -22,8 +22,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
-    public UUID createClient(ClientRequestDto clientRequestDto) {
-        final UUID clientId = UUID.randomUUID();
+    public String createClient(ClientRequestDto clientRequestDto) {
+        final String clientId = UUID.randomUUID().toString();
         final Client client = new Client();
         client.setId(clientId);
         client.setUsername(clientRequestDto.getUsername());
@@ -37,7 +37,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
-    public ClientResponseDto updateClient(UUID clientId, ClientRequestDto clientRequestDto) throws ClientNotFoundException {
+    public ClientResponseDto updateClient(String clientId, ClientRequestDto clientRequestDto) throws ClientNotFoundException {
         final Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Клиент с идентификатором " + clientId + " не найден"));
         if (clientRequestDto.getUsername() != null) {
@@ -67,13 +67,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
-    public void deleteClient(UUID clientId) {
+    public void deleteClient(String clientId) {
         clientRepository.deleteById(clientId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public ClientResponseDto getClient(UUID clientId) throws ClientNotFoundException {
+    public ClientResponseDto getClient(String clientId) throws ClientNotFoundException {
         final Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Клиент с идентификатором " + clientId + " не найден"));
 
