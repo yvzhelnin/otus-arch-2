@@ -1,6 +1,6 @@
 postgresqlUsername: db_user
 postgresqlPassword: db_password
-postgesqlDatabase: crud
+postgresqlDatabase: crud
 
 service:
   type: NodePort
