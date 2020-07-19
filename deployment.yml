@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: crud-appl-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: crud-java-appl
@@ -39,12 +39,12 @@ spec:
             httpGet:
               port: 80
               path: /info/status
-            initialDelaySeconds: 10
+            initialDelaySeconds: 50
             periodSeconds: 5
             timeoutSeconds: 2
           readinessProbe:
             httpGet:
               port: 80
               path: /info/health
-            initialDelaySeconds: 10
+            initialDelaySeconds: 40
             periodSeconds: 5
