@@ -5,4 +5,5 @@
 <p>docker push yvzhelnin/crud-appl:v0.9</p>
 
 # Kubernetes
+<p>helm install pg bitnami/postgresql -f values.yml</p>
 <p>kubectl apply -f datasource_secrets.yml -f deployment.yml -f service.yml -f ingress.yml</p>
