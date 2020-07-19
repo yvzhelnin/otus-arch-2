@@ -1,0 +1,2 @@
+ALTER TABLE common.client
+    ALTER COLUMN id TYPE UUID;
