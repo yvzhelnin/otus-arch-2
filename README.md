@@ -7,3 +7,6 @@
 # Kubernetes
 <p>helm install pg bitnami/postgresql -f values.yml</p>
 <p>kubectl apply -f datasource_secrets.yml -f deployment.yml -f service.yml -f ingress.yml</p>
+
+# HELM
+<p>helm install crud-app ./crud-appl-chart/ --values crud-appl-chart/values.yaml</p>
