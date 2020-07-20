@@ -9,7 +9,6 @@ deployment:
   initContainer:
     name: init-pg
     image: busybox
-    command: ['sh', '-c', 'until nslookup pg-postgresql; do echo waiting for myservice; sleep 2; done;']
   container:
     name: crud-pod-java
     portName: web
@@ -21,10 +20,6 @@ deployment:
   liveness:
     initialDelaySeconds: 50
     periodSeconds: 5
-  dbCredentials:
-    spring_datasource_username: ZGJfdXNlcg==
-    spring_datasource_password: ZGJfcGFzc3dvcmQ=
-    spring_datasource_url: amRiYzpwb3N0Z3Jlc3FsOi8vcGctcG9zdGdyZXNxbDo1NDMyL2NydWQK
 service:
   name: crud-appl-service
   type: NodePort
@@ -36,3 +31,10 @@ ingress:
   name: crud-ingress
   path: /crud-app($|/)(.*)
   pathType: Prefix
+
+postgresql:
+  postgresqlUsername: db_user
+  postgresqlPassword: db_password
+  postgresqlDatabase: crud
+  service:
+    port: "5432"
