@@ -1,0 +1,16 @@
+replicaCount: 2
+
+deployment:
+  image:
+    pullPolicy: Always
+  dbCredentials:
+    spring_datasource_username: ZGJfdXNlcg==
+    spring_datasource_password: ZGJfcGFzc3dvcmQ=
+    spring_datasource_url: amRiYzpwb3N0Z3Jlc3FsOi8vcGctcG9zdGdyZXNxbDo1NDMyL2NydWQK
+service:
+  type: NodePort
+  protocol: TCP
+  port: 8000
+
+ingress:
+  host: arch.homework

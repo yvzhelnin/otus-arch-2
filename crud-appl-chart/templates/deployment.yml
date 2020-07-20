@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "crud-appl-chart.deploymentName" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "crud-appl-chart.appLabel" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "crud-appl-chart.appLabel" . | nindent 8 }}
+    spec:
+      initContainers:
+        - name: {{ include "crud-appl-chart.deployment.initContainer.name" . | nindent 8 }}
+          image: {{ include "crud-appl-chart.deployment.initContainer.image" . | nindent 10 }}
+          command: {{ include "crud-appl-chart.deployment.initContainer.command" . | nindent 10 }}
+      containers:
+        - name: {{ include "crud-appl-chart.podName" . | nindent 8 }}
+          image: {{ include "crud-appl-chart.deployment.image.name" . | nindent 10 }}
+          imagePullPolicy: {{ include "crud-appl-chart.deployment.image.pullPolicy" . | nindent 10 }}
+          ports:
+            - name: {{ include "crud-appl-chart.deployment.container.portName" . | nindent 12 }}
+              containerPort: {{ include "crud-appl-chart.deployment.container.port" . | nindent 14 }}
+          env:
+            - name: spring_datasource_username
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-secrets
+                  key: spring_datasource_username
+            - name: spring_datasource_password
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-secrets
+                  key: spring_datasource_password
+            - name: spring_datasource_url
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-secrets
+                  key: spring_datasource_url
+          livenessProbe:
+            httpGet:
+              port: {{ include "crud-appl-chart.deployment.container.port" . | nindent 14 }}
+              path: {{ include "crud-appl-chart.deployment.liveness.path" . | nindent 14 }}
+            initialDelaySeconds: {{ include "crud-appl-chart.deployment.liveness.initialDelaySeconds" . | nindent 12 }}
+            periodSeconds: {{ include "crud-appl-chart.deployment.liveness.periodSeconds" . | nindent 12 }}
+            timeoutSeconds: {{ include "crud-appl-chart.deployment.liveness.timeoutSeconds" . | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              port: {{ include "crud-appl-chart.deployment.container.port" . | nindent 14 }}
+              path: {{ include "crud-appl-chart.deployment.readiness.path" . | nindent 14 }}
+            initialDelaySeconds: {{ include "crud-appl-chart.deployment.readiness.initialDelaySeconds" . | nindent 12 }}
+            periodSeconds: {{ include "crud-appl-chart.deployment.readiness.periodSeconds" . | nindent 12 }}

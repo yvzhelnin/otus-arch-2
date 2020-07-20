@@ -1,0 +1,36 @@
+apiVersion: v2
+name: crud-appl-chart
+description: A Helm chart for CRUD Otus arch HW application
+deploymentName: crud-appl-deployment
+podName: crud-pod-java
+serviceName: crud-appl-service
+appLabel: crud-java-appl
+
+type: application
+version: 0.1.0
+appVersion: 1.5
+
+deployment:
+  image:
+    pullPolicy: Always
+    name: yvzhelnin/crud-appl:v1.5
+  iniContainer:
+    name: init-pg
+    image: busybox
+    command: ['sh', '-c', 'until nslookup pg-postgresql; do echo waiting for myservice; sleep 2; done;']
+  container:
+    portName: web
+    port: 80
+  readiness:
+    path: /info/status
+    initialDelaySeconds: 40
+    periodSeconds: 5
+    timeoutSeconds: 2
+  liveness:
+    path: /info/health
+    initialDelaySeconds: 50
+    periodSeconds: 5
+ingress:
+  name: crud-ingress
+  path: /crud-app($|/)(.*)
+  pathType: Prefix

@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "crud-appl-chart.ingress.name" . | nindent 2 }}
+  annotations:
+    ginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - path: {{ include "crud-appl-chart.ingress.path" . | nindent 10 }}
+            pathType: {{ include "crud-appl-chart.ingress.pathType" . | nindent 12 }}
+            backend:
+              serviceName: {{ include "crud-appl-chart.serviceName" . | nindent 14 }}
+              servicePort: {{ .Values.service.port }}
