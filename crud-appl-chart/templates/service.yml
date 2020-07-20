@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "crud-appl-chart.deploymentName" . | nindent 2 }}
+  name: {{ .Values.service.name }}
 spec:
   selector:
-    app: {{ include "crud-appl-chart.appLabel" . | nindent 4 }}
+    app: {{ .Values.deployment.label }}
   ports:
     - protocol: {{ .Values.service.protocol }}
       port: {{ .Values.service.port }}
-      targetPort: {{ include "crud-appl-chart.deployment.container.portName" . | nindent 6 }}
+      targetPort: {{ .Values.deployment.container.portName }}
   type: {{ .Values.service.type }}

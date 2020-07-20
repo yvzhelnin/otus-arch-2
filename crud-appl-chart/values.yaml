@@ -1,16 +1,38 @@
 replicaCount: 2
 
 deployment:
+  name: crud-appl-deployment
   image:
+    repo: yvzhelnin/crud-appl
     pullPolicy: Always
+  label: crud-java-appl
+  initContainer:
+    name: init-pg
+    image: busybox
+    command: ['sh', '-c', 'until nslookup pg-postgresql; do echo waiting for myservice; sleep 2; done;']
+  container:
+    name: crud-pod-java
+    portName: web
+    port: 80
+  readiness:
+    initialDelaySeconds: 40
+    periodSeconds: 5
+    timeoutSeconds: 2
+  liveness:
+    initialDelaySeconds: 50
+    periodSeconds: 5
   dbCredentials:
     spring_datasource_username: ZGJfdXNlcg==
     spring_datasource_password: ZGJfcGFzc3dvcmQ=
     spring_datasource_url: amRiYzpwb3N0Z3Jlc3FsOi8vcGctcG9zdGdyZXNxbDo1NDMyL2NydWQK
 service:
+  name: crud-appl-service
   type: NodePort
   protocol: TCP
   port: 8000
 
 ingress:
   host: arch.homework
+  name: crud-ingress
+  path: /crud-app($|/)(.*)
+  pathType: Prefix
