@@ -9,4 +9,7 @@
 <p>kubectl apply -f datasource_secrets.yml -f deployment.yml -f service.yml -f ingress.yml</p>
 
 # HELM
+<p>cd crud-appl-chart</p>
+<p>helm dependency update</p>
+<p>cd ..</p>
 <p>helm install crud-app ./crud-appl-chart/ --values crud-appl-chart/values.yaml</p>
