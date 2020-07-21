@@ -9,8 +9,8 @@ spec:
     - host: arch.homework
       http:
         paths:
-          - path: /otusapp($|/)(.*)
+          - path: /crud-app($|/)(.*)
             pathType: Prefix
             backend:
-              serviceName: crud-service
+              serviceName: crud-appl-service
               servicePort: 8000

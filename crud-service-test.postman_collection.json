@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "d746841d-4277-416b-91c7-4e2ba51c8211",
+		"name": "crud-service-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CREATE CLIENT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e20b462f-3a91-42db-b0d7-247886f6be37",
+						"exec": [
+							"pm.collectionVariables.set(\"clientId\", responseBody);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"king\",\"firstName\":\"John\",\"lastName\":\"Dnow\",\"email\":\"john@dnow.com\",\"phone\":\"+7 777 777 77 77\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://arch.homework/crud-app/api/client/",
+					"protocol": "http",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"crud-app",
+						"api",
+						"client",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET CLIENT",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://arch.homework/crud-app/api/client/{{clientId}}",
+					"protocol": "http",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"crud-app",
+						"api",
+						"client",
+						"{{clientId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE CLIENT",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"firstName\":\"Filipp\",\"lastName\":\"Kirkoroff\",\"email\":\"filipp@kirkoroff.ru\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://arch.homework/crud-app/api/client/{{clientId}}",
+					"protocol": "http",
+					"host": [
+						"arch",
+						"homework"
+					],
+					"path": [
+						"crud-app",
+						"api",
+						"client",
+						"{{clientId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE CLIENT",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/crud-app/api/client/{{clientId}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"crud-app",
+						"api",
+						"client",
+						"{{clientId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "027e5321-4ab4-4e61-b869-e90eedc5fce7",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "61412ff2-95d0-4891-9072-c08a732375fe",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "26a4ce64-1a91-45ff-ae3f-c7deed68ccdb",
+			"key": "clientId",
+			"value": ""
+		},
+		{
+			"id": "3ea033b9-2b7d-411d-bfa3-4d68be959dd5",
+			"key": "baseUrl",
+			"value": "arch.homework"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
