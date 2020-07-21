@@ -13,3 +13,6 @@
 <p>helm dependency update</p>
 <p>cd ..</p>
 <p>helm install crud-app ./crud-appl-chart/ --values crud-appl-chart/values.yaml</p>
+
+# CHECK (Postman)
+<p>newman run crud-service-test.postman_collection.json</p>
