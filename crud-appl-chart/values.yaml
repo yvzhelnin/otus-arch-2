@@ -5,6 +5,9 @@ deployment:
   image:
     repo: yvzhelnin/crud-appl
     pullPolicy: Always
+  metrics:
+    prometheus-scrapping-enabled: true
+    prometheus-path: /api/metrics
   label: crud-java-appl
   initContainer:
     name: init-pg
