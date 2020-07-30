@@ -8,6 +8,10 @@ spec:
     matchLabels:
       app: crud-java-appl
   template:
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "80"
+      prometheus.io/path: /api/metrics
     metadata:
       labels:
         app: crud-java-appl
