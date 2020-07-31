@@ -1,0 +1,20 @@
+{{- if .Values.metrics.serviceMonitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Values.service.name }}-monitor
+  labels:
+    {{- include "crud-appl-chart.labels" . | nindent 4 }}
+spec:
+  jobLabel: {{ .Values.service.name }}-monitor-job
+  namespaceSelector:
+    matchNames:
+      - "{{ $.Release.Namespace }}"
+  selector:
+    matchLabels:
+      {{ .Values.service.name }}
+  endpoints:
+    - interval: 15s
+      port: web
+      path: /actuator/prometheus
+{{- end }}

@@ -38,3 +38,7 @@ postgresql:
   postgresqlDatabase: crud
   service:
     port: "5432"
+
+metrics:
+  serviceMonitor:
+    enabled: true
