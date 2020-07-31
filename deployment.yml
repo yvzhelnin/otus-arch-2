@@ -11,7 +11,7 @@ spec:
     annotations:
       prometheus.io/scrape: "true"
       prometheus.io/port: "80"
-      prometheus.io/path: /api/metrics
+      prometheus.io/path: /actuator/prometheus
     metadata:
       labels:
         app: crud-java-appl
@@ -22,7 +22,7 @@ spec:
           command: ['sh', '-c', 'until nslookup pg-postgresql; do echo waiting for myservice; sleep 2; done;']
       containers:
         - name: crud-pod-java
-          image: yvzhelnin/crud-appl:v1.5
+          image: yvzhelnin/crud-appl:v2.1
           imagePullPolicy: Always
           ports:
             - name: web

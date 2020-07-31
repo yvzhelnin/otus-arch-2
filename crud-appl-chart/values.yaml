@@ -7,7 +7,7 @@ deployment:
     pullPolicy: Always
   metrics:
     prometheus-scrapping-enabled: true
-    prometheus-path: /api/metrics
+    prometheus-path: /actuator/prometheus
   label: crud-java-appl
   initContainer:
     name: init-pg
