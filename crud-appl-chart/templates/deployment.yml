@@ -10,9 +10,9 @@ spec:
   template:
     metadata:
       annotations:
-      prometheus.io/scrape: {{ .Values.deployment.metrics.prometheus-scrapping-enabled }}
+      prometheus.io/scrape: {{ .Values.deployment.metrics.prometheusScrappingEnabled }}
       prometheus.io/port: {{ .Values.deployment.container.port }}
-      prometheus.io/path: {{ .Values.deployment.metrics.prometheus-path }}
+      prometheus.io/path: {{ .Values.deployment.metrics.prometheusPath }}
       labels:
         app: {{ .Values.deployment.label }}
     spec:
