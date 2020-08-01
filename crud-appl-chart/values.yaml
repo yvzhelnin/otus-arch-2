@@ -42,3 +42,4 @@ postgresql:
 metrics:
   serviceMonitor:
     enabled: true
+
