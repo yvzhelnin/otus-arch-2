@@ -1,21 +1,20 @@
-{{- if .Values.metrics.serviceMonitor.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ .Values.service.name }}-monitor
-  namespace: "{{ $.Release.Namespace }}"
+  name: crud-appl-service-monitor
+  namespace: crud-app
   labels:
-    app: {{ .Values.service.name }}-monitor
+    app: crud-appl-service-label
+    release: prometheus
 spec:
-  jobLabel: {{ .Values.service.name }}-monitor-job
+  jobLabel: crud-appl-service-monitor
   namespaceSelector:
     matchNames:
-      - "{{ $.Release.Namespace }}"
+      - crud-app
   selector:
     matchLabels:
-      app: {{ .Values.service.name }}
+      app: crud-appl-service-label
   endpoints:
     - interval: 15s
-      port: {{ .Values.deployment.container.portName }}
+      port: service-web
       path: /actuator/prometheus
-{{- end }}
