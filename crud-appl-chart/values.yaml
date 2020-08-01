@@ -25,6 +25,7 @@ service:
   label: crud-appl-service-label
   type: NodePort
   protocol: TCP
+  portName: service-web
   port: 8000
 
 ingress:
@@ -43,3 +44,5 @@ postgresql:
 metrics:
   serviceMonitor:
     enabled: true
+    interval: 15s
+    path: /actuator/prometheus

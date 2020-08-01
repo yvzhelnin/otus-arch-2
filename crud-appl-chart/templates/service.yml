@@ -8,7 +8,7 @@ spec:
   selector:
     app: {{ .Values.deployment.label }}
   ports:
-    - name: service-web
+    - name: {{ .Values.service.portName }}
       protocol: {{ .Values.service.protocol }}
       port: {{ .Values.service.port }}
       targetPort: {{ .Values.deployment.container.portName }}
