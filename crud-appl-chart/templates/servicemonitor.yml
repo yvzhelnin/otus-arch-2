@@ -3,18 +3,20 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ .Values.service.name }}-monitor
+  namespace: {{ $.Release.Namespace }}
   labels:
-    {{- include "crud-appl-chart.labels" . | nindent 4 }}
+    app: {{ .Values.service.label }}
+    release: prometheus
 spec:
-  jobLabel: {{ .Values.service.name }}-monitor-job
+  jobLabel: {{ .Values.service.name }}-monitor
   namespaceSelector:
     matchNames:
-      - "{{ $.Release.Namespace }}"
+      - {{ $.Release.Namespace }}
   selector:
     matchLabels:
-      {{ .Values.service.name }}
+      app: {{ .Values.service.label }}
   endpoints:
-    - interval: 15s
-      port: web
-      path: /actuator/prometheus
+    - interval: {{ .Values.metrics.serviceMonitor.interval }}
+      port: {{ .Values.service.portName }}
+      path: {{ .Values.metrics.serviceMonitor.path }}
 {{- end }}
