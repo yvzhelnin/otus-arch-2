@@ -23,6 +23,10 @@ public class Client {
     private String username;
 
     @NotNull
+    @Column(name = "password")
+    private String password;
+
+    @NotNull
     @Column(name = "first_name")
     private String firstName;
 

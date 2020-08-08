@@ -27,6 +27,7 @@ public class ClientServiceImpl implements ClientService {
         final Client client = new Client();
         client.setId(clientId);
         client.setUsername(clientRequestDto.getUsername());
+        client.setPassword(clientRequestDto.getPassword());
         client.setFirstName(clientRequestDto.getFirstName());
         client.setLastName(clientRequestDto.getLastName());
         client.setEmail(clientRequestDto.getEmail());
@@ -42,6 +43,9 @@ public class ClientServiceImpl implements ClientService {
                 .orElseThrow(() -> new ClientNotFoundException("Клиент с идентификатором " + clientId + " не найден"));
         if (clientRequestDto.getUsername() != null) {
             client.setUsername(clientRequestDto.getUsername());
+        }
+        if (clientRequestDto.getPassword() != null) {
+            client.setPassword(clientRequestDto.getPassword());
         }
         if (clientRequestDto.getFirstName() != null) {
             client.setFirstName(clientRequestDto.getFirstName());
