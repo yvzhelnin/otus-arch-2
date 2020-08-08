@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.hwcrud.config;
+package ru.yvzhelnin.otus.hwauth.config;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
@@ -16,6 +16,6 @@ public class MonitoringConfig {
      */
     @Bean
     public MeterRegistryCustomizer<MeterRegistry> metricsCommonTags() {
-        return registry -> registry.config().commonTags("application", "HW CRUD Application");
+        return registry -> registry.config().commonTags("application", "HW Auth Application");
     }
 }

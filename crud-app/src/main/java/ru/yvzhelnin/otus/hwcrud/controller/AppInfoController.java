@@ -22,6 +22,6 @@ public class AppInfoController {
 
     @GetMapping("/version")
     public VersionDto getVersion() {
-        return new VersionDto("2.3");
+        return new VersionDto("2.4");
     }
 }

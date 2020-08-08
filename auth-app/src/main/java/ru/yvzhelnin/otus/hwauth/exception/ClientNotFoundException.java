@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.hwcrud.exception;
+package ru.yvzhelnin.otus.hwauth.exception;
 
 public class ClientNotFoundException extends Exception {
 

@@ -1,9 +1,9 @@
-package ru.yvzhelnin.otus.hwcrud.controller;
+package ru.yvzhelnin.otus.hwauth.controller;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.yvzhelnin.otus.hwcrud.exception.ClientNotFoundException;
-import ru.yvzhelnin.otus.hwcrud.exception.ErrorMessage;
+import ru.yvzhelnin.otus.hwauth.exception.ClientNotFoundException;
+import ru.yvzhelnin.otus.hwauth.exception.ErrorMessage;
 
 import javax.servlet.http.HttpServletResponse;
 

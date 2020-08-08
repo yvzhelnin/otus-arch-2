@@ -1,8 +1,8 @@
-package ru.yvzhelnin.otus.hwcrud.service;
+package ru.yvzhelnin.otus.hwauth.service;
 
-import ru.yvzhelnin.otus.hwcrud.dto.ClientRequestDto;
-import ru.yvzhelnin.otus.hwcrud.dto.ClientResponseDto;
-import ru.yvzhelnin.otus.hwcrud.exception.ClientNotFoundException;
+import ru.yvzhelnin.otus.hwauth.dto.ClientRequestDto;
+import ru.yvzhelnin.otus.hwauth.dto.ClientResponseDto;
+import ru.yvzhelnin.otus.hwauth.exception.ClientNotFoundException;
 
 public interface ClientService {
 

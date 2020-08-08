@@ -1,13 +1,13 @@
-package ru.yvzhelnin.otus.hwcrud.service.impl;
+package ru.yvzhelnin.otus.hwauth.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.yvzhelnin.otus.hwcrud.dto.ClientRequestDto;
-import ru.yvzhelnin.otus.hwcrud.dto.ClientResponseDto;
-import ru.yvzhelnin.otus.hwcrud.exception.ClientNotFoundException;
-import ru.yvzhelnin.otus.hwcrud.model.Client;
-import ru.yvzhelnin.otus.hwcrud.repository.ClientRepository;
-import ru.yvzhelnin.otus.hwcrud.service.ClientService;
+import ru.yvzhelnin.otus.hwauth.dto.ClientRequestDto;
+import ru.yvzhelnin.otus.hwauth.dto.ClientResponseDto;
+import ru.yvzhelnin.otus.hwauth.exception.ClientNotFoundException;
+import ru.yvzhelnin.otus.hwauth.model.Client;
+import ru.yvzhelnin.otus.hwauth.repository.ClientRepository;
+import ru.yvzhelnin.otus.hwauth.service.ClientService;
 
 import java.util.UUID;
 

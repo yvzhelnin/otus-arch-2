@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.hwcrud.dto;
+package ru.yvzhelnin.otus.hwauth.dto;
 
 import lombok.Getter;
 import org.springframework.data.annotation.Immutable;

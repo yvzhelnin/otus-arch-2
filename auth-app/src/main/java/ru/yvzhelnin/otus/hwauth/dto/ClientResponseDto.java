@@ -1,11 +1,13 @@
-package ru.yvzhelnin.otus.hwcrud.dto;
+package ru.yvzhelnin.otus.hwauth.dto;
 
 import lombok.Getter;
 import org.springframework.data.annotation.Immutable;
 
 @Immutable
 @Getter
-public class ClientRequestDto {
+public class ClientResponseDto {
+
+    private final String clientId;
 
     private final String username;
 
@@ -17,7 +19,8 @@ public class ClientRequestDto {
 
     private final String phone;
 
-    public ClientRequestDto(String username, String firstName, String lastName, String email, String phone) {
+    public ClientResponseDto(String clientId, String username, String firstName, String lastName, String email, String phone) {
+        this.clientId = clientId;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;

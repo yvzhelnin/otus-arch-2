@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.hwcrud.exception;
+package ru.yvzhelnin.otus.hwauth.exception;
 
 import lombok.Getter;
 import org.springframework.data.annotation.Immutable;

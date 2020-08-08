@@ -1,12 +1,12 @@
-package ru.yvzhelnin.otus.hwcrud;
+package ru.yvzhelnin.otus.hwauth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CrudApplication {
+public class AuthApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CrudApplication.class, args);
+        SpringApplication.run(AuthApplication.class, args);
     }
 }

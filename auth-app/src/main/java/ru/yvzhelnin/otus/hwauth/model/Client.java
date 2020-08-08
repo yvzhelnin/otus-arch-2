@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.hwcrud.model;
+package ru.yvzhelnin.otus.hwauth.model;
 
 import lombok.Getter;
 import lombok.Setter;

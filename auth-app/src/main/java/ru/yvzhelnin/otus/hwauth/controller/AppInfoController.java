@@ -1,10 +1,10 @@
-package ru.yvzhelnin.otus.hwcrud.controller;
+package ru.yvzhelnin.otus.hwauth.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.yvzhelnin.otus.hwcrud.dto.HealthInfoDto;
-import ru.yvzhelnin.otus.hwcrud.dto.VersionDto;
+import ru.yvzhelnin.otus.hwauth.dto.HealthInfoDto;
+import ru.yvzhelnin.otus.hwauth.dto.VersionDto;
 
 @RestController
 @RequestMapping("/info")
@@ -22,6 +22,6 @@ public class AppInfoController {
 
     @GetMapping("/version")
     public VersionDto getVersion() {
-        return new VersionDto("2.3");
+        return new VersionDto("0.1");
     }
 }
