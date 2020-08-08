@@ -1,0 +1,42 @@
+replicaCount: 2
+
+deployment:
+  name: auth-appl-deployment
+  image:
+    repo: yvzhelnin/auth-appl
+    pullPolicy: Always
+  label: auth-java-appl
+  initContainer:
+    name: init-pg
+    image: busybox
+  container:
+    name: auth-pod-java
+    portName: web
+    port: 80
+  readiness:
+    initialDelaySeconds: 40
+    periodSeconds: 5
+    timeoutSeconds: 2
+  liveness:
+    initialDelaySeconds: 50
+    periodSeconds: 5
+service:
+  name: auth-appl-service
+  label: auth-appl-service-label
+  type: NodePort
+  protocol: TCP
+  portName: service-web
+  port: 8000
+
+postgresql:
+  postgresqlUsername: db_user
+  postgresqlPassword: db_password
+  postgresqlDatabase: crud
+  service:
+    port: "5432"
+
+metrics:
+  serviceMonitor:
+    enabled: true
+    interval: 15s
+    path: /actuator/prometheus
