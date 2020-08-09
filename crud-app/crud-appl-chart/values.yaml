@@ -46,3 +46,9 @@ metrics:
     enabled: true
     interval: 15s
     path: /actuator/prometheus
+
+auth:
+  service:
+    name: auth-appl-service
+    port: 8000
+  url: /api/auth
