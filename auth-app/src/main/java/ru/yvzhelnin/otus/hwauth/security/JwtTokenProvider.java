@@ -24,7 +24,7 @@ public class JwtTokenProvider {
 
     public JwtResponse generateToken(Client client) {
         Date now = new Date();
-        Map<String, Object> tokenClaims = new HashMap<>();    // for writing token type to token
+        Map<String, Object> tokenClaims = new HashMap<>();
 
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMsForAccessToken);
         tokenClaims.put(TOKEN_TYPE_PARAMETER_NAME, TokenType.ACCESS_TOKEN);

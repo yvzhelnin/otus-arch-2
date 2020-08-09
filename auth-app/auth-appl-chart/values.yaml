@@ -28,13 +28,6 @@ service:
   portName: service-web
   port: 8000
 
-postgresql:
-  postgresqlUsername: db_user
-  postgresqlPassword: db_password
-  postgresqlDatabase: crud
-  service:
-    port: "5432"
-
 metrics:
   serviceMonitor:
     enabled: true

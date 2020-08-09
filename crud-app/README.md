@@ -1,4 +1,4 @@
-# otus-arch-2
+# otus-arch-2/crud-app
 
 # Docker
 <p>docker build -t yvzhelnin/crud-appl:v2.4 --no-cache .</p>
