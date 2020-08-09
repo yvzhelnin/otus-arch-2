@@ -1,8 +1,8 @@
 # otus-arch-2/crud-app
 
 # Docker
-<p>docker build -t yvzhelnin/crud-appl:v2.4 --no-cache .</p>
-<p>docker push yvzhelnin/crud-appl:v2.4</p>
+<p>docker build -t yvzhelnin/crud-appl:v3.0 --no-cache .</p>
+<p>docker push yvzhelnin/crud-appl:v3.0</p>
 
 # Kubernetes
 <p>helm install pg bitnami/postgresql -f values.yml</p>

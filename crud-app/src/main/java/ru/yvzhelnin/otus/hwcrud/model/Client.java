@@ -1,5 +1,6 @@
 package ru.yvzhelnin.otus.hwcrud.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,14 +12,17 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(schema = "common", name = "client")
 public class Client {
 
     @Id
+    @EqualsAndHashCode.Include
     private String id;
 
     @NotNull
+    @EqualsAndHashCode.Include
     @Column(name = "username")
     private String username;
 

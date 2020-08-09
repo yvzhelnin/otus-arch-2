@@ -5,8 +5,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.yvzhelnin.otus.hwcrud.dto.ClientRequestDto;
 import ru.yvzhelnin.otus.hwcrud.dto.ClientResponseDto;
 import ru.yvzhelnin.otus.hwcrud.exception.ClientNotFoundException;
+import ru.yvzhelnin.otus.hwcrud.exception.CrudAppAuthenticationException;
+import ru.yvzhelnin.otus.hwcrud.exception.PermissionDeniedException;
 import ru.yvzhelnin.otus.hwcrud.model.Client;
 import ru.yvzhelnin.otus.hwcrud.repository.ClientRepository;
+import ru.yvzhelnin.otus.hwcrud.service.AuthClientService;
 import ru.yvzhelnin.otus.hwcrud.service.ClientService;
 
 import java.util.UUID;
@@ -16,8 +19,11 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository) {
+    private final AuthClientService authClientService;
+
+    public ClientServiceImpl(ClientRepository clientRepository, AuthClientService authClientService) {
         this.clientRepository = clientRepository;
+        this.authClientService = authClientService;
     }
 
     @Transactional
@@ -38,9 +44,13 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
-    public ClientResponseDto updateClient(String clientId, ClientRequestDto clientRequestDto) throws ClientNotFoundException {
+    public ClientResponseDto updateClient(String clientId, ClientRequestDto clientRequestDto) throws ClientNotFoundException, PermissionDeniedException {
         final Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Клиент с идентификатором " + clientId + " не найден"));
+        final Client authClient = authClientService.getAuthenticatedClient();
+        if (!client.equals(authClient)) {
+            throw new PermissionDeniedException("Недостаточно прав для изменения другого клиента!");
+        }
         if (clientRequestDto.getUsername() != null) {
             client.setUsername(clientRequestDto.getUsername());
         }
@@ -71,16 +81,25 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
-    public void deleteClient(String clientId) {
+    public void deleteClient(String clientId) throws ClientNotFoundException, PermissionDeniedException {
+        final Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new ClientNotFoundException("Клиент с идентификатором " + clientId + " не найден"));
+        final Client authClient = authClientService.getAuthenticatedClient();
+        if (!client.equals(authClient)) {
+            throw new PermissionDeniedException("Недостаточно прав для удаления другого клиента!");
+        }
         clientRepository.deleteById(clientId);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public ClientResponseDto getClient(String clientId) throws ClientNotFoundException {
+    public ClientResponseDto getClient(String clientId) throws ClientNotFoundException, PermissionDeniedException {
         final Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Клиент с идентификатором " + clientId + " не найден"));
-
+        final Client authClient = authClientService.getAuthenticatedClient();
+        if (!client.equals(authClient)) {
+            throw new PermissionDeniedException("Недостаточно прав для получения данных другого клиента!");
+        }
         return new ClientResponseDto(client.getId(),
                 client.getUsername(),
                 client.getFirstName(),
