@@ -27,12 +27,16 @@ import ru.yvzhelnin.otus.hwcrud.security.JwtTokenHandler;
 @Getter
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String[] WHITE_LIST = {
+    private static final String[] INFRASTRUCTURE_WHITE_LIST = {
             "/actuator/health",
             "/actuator/prometheus",
             "/info/health",
             "/info/status",
             "/info/version",
+    };
+
+    private static final String[] LOGIC_WHITE_LIST = {
+            "/api/client/",
     };
 
     @Value("${jwt.secret}")
@@ -59,8 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint())
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, WHITE_LIST).permitAll()
-                .antMatchers(HttpMethod.POST, "/api/client").permitAll()
+                .antMatchers(HttpMethod.GET, INFRASTRUCTURE_WHITE_LIST).permitAll()
+                .antMatchers(HttpMethod.POST, LOGIC_WHITE_LIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtAuthenticationEntryPoint(), jwtTokenHandler()))
