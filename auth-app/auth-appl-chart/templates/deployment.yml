@@ -12,10 +12,6 @@ spec:
       labels:
         app: {{ .Values.deployment.label }}
     spec:
-      initContainers:
-        - name: {{ .Values.deployment.initContainer.name }}
-          image: {{ .Values.deployment.initContainer.image }}
-          command: ["sh", "-c", {{ printf "until nslookup %s-postgresql; do echo waiting for myservice; sleep 2; done;" .Release.Name | quote }} ]
       containers:
         - name: {{ .Values.deployment.container.name }}
           image: {{ .Values.deployment.image.repo }}:{{ .Chart.AppVersion }}
