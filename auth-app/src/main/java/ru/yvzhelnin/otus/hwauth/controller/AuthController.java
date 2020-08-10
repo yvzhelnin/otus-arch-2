@@ -5,16 +5,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yvzhelnin.otus.hwauth.dto.ClientRequestDto;
-import ru.yvzhelnin.otus.hwauth.dto.LoginDto;
 import ru.yvzhelnin.otus.hwauth.exception.AuthenticationException;
 import ru.yvzhelnin.otus.hwauth.exception.ClientNotFoundException;
 import ru.yvzhelnin.otus.hwauth.service.AuthService;
 import ru.yvzhelnin.otus.hwauth.service.ClientService;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -35,8 +33,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody LoginDto loginDto) throws AuthenticationException, ClientNotFoundException {
-        var jwt = authService.authenticate(loginDto);
+    public ResponseEntity<String> login(@RequestHeader("X-Username") String username, @RequestHeader("X-Password") String password)
+            throws AuthenticationException, ClientNotFoundException {
+        var jwt = authService.authenticate(username, password);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Authorization", jwt.getJwtToken());
 

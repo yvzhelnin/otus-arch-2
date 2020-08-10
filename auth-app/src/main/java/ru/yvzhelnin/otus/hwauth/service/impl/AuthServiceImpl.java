@@ -2,7 +2,6 @@ package ru.yvzhelnin.otus.hwauth.service.impl;
 
 import org.springframework.stereotype.Service;
 import ru.yvzhelnin.otus.hwauth.dto.JwtResponse;
-import ru.yvzhelnin.otus.hwauth.dto.LoginDto;
 import ru.yvzhelnin.otus.hwauth.exception.AuthenticationException;
 import ru.yvzhelnin.otus.hwauth.exception.ClientNotFoundException;
 import ru.yvzhelnin.otus.hwauth.model.Client;
@@ -25,9 +24,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public JwtResponse authenticate(LoginDto loginDto) throws ClientNotFoundException, AuthenticationException {
-        final String username = loginDto.getUsername();
-        final String password = loginDto.getPassword();
+    public JwtResponse authenticate(String username, String password) throws ClientNotFoundException, AuthenticationException {
         final Client client = clientRepository.findByUsername(username)
                 .orElseThrow(() -> new ClientNotFoundException("Client with username '" + username + "' hasn't been found!"));
         if (!Objects.equals(password, client.getPassword())) {
