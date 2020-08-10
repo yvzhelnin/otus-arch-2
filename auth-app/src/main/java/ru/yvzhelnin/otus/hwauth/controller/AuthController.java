@@ -27,12 +27,17 @@ public class AuthController {
         this.clientService = clientService;
     }
 
-    @GetMapping("/check")
-    public String auth() {
-        return "OK";
+    @RequestMapping("/auth")
+    public ResponseEntity<String> auth(@RequestHeader("Authorization") String jwtToken) {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Authorization", jwtToken);
+
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body("OK");
     }
 
-    @PostMapping("/login")
+    @RequestMapping("/login")
     public ResponseEntity<String> login(@RequestHeader("X-Username") String username, @RequestHeader("X-Password") String password)
             throws AuthenticationException, ClientNotFoundException {
         var jwt = authService.authenticate(username, password);
