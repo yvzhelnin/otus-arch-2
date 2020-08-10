@@ -7,11 +7,13 @@ import ru.yvzhelnin.otus.hwcrud.exception.PermissionDeniedException;
 
 public interface ClientService {
 
-    String createClient(ClientRequestDto clientRequestDto);
-
     ClientResponseDto updateClient(String clientId, ClientRequestDto clientRequestDto) throws ClientNotFoundException, PermissionDeniedException;
 
     void deleteClient(String clientId) throws ClientNotFoundException, PermissionDeniedException;
 
     ClientResponseDto getClient(String clientId) throws ClientNotFoundException, PermissionDeniedException;
+
+    ClientResponseDto getMyself() throws ClientNotFoundException, PermissionDeniedException;
+
+    ClientResponseDto updateMyself(ClientRequestDto clientRequestDto) throws ClientNotFoundException, PermissionDeniedException;
 }

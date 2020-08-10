@@ -5,14 +5,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.yvzhelnin.otus.hwcrud.dto.ClientRequestDto;
 import ru.yvzhelnin.otus.hwcrud.dto.ClientResponseDto;
 import ru.yvzhelnin.otus.hwcrud.exception.ClientNotFoundException;
-import ru.yvzhelnin.otus.hwcrud.exception.CrudAppAuthenticationException;
 import ru.yvzhelnin.otus.hwcrud.exception.PermissionDeniedException;
 import ru.yvzhelnin.otus.hwcrud.model.Client;
 import ru.yvzhelnin.otus.hwcrud.repository.ClientRepository;
 import ru.yvzhelnin.otus.hwcrud.service.AuthClientService;
 import ru.yvzhelnin.otus.hwcrud.service.ClientService;
-
-import java.util.UUID;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -24,22 +21,6 @@ public class ClientServiceImpl implements ClientService {
     public ClientServiceImpl(ClientRepository clientRepository, AuthClientService authClientService) {
         this.clientRepository = clientRepository;
         this.authClientService = authClientService;
-    }
-
-    @Transactional
-    @Override
-    public String createClient(ClientRequestDto clientRequestDto) {
-        final String clientId = UUID.randomUUID().toString();
-        final Client client = new Client();
-        client.setId(clientId);
-        client.setUsername(clientRequestDto.getUsername());
-        client.setPassword(clientRequestDto.getPassword());
-        client.setFirstName(clientRequestDto.getFirstName());
-        client.setLastName(clientRequestDto.getLastName());
-        client.setEmail(clientRequestDto.getEmail());
-        client.setPhone(clientRequestDto.getPhone());
-
-        return clientRepository.save(client).getId();
     }
 
     @Transactional
@@ -106,5 +87,48 @@ public class ClientServiceImpl implements ClientService {
                 client.getLastName(),
                 client.getEmail(),
                 client.getPhone());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public ClientResponseDto getMyself() throws ClientNotFoundException {
+        final Client client = authClientService.getAuthenticatedClient();
+        return new ClientResponseDto(client.getId(),
+                client.getUsername(),
+                client.getFirstName(),
+                client.getLastName(),
+                client.getEmail(),
+                client.getPhone());
+    }
+
+    @Override
+    public ClientResponseDto updateMyself(ClientRequestDto clientRequestDto) throws ClientNotFoundException {
+        final Client client = authClientService.getAuthenticatedClient();
+        if (clientRequestDto.getUsername() != null) {
+            client.setUsername(clientRequestDto.getUsername());
+        }
+        if (clientRequestDto.getPassword() != null) {
+            client.setPassword(clientRequestDto.getPassword());
+        }
+        if (clientRequestDto.getFirstName() != null) {
+            client.setFirstName(clientRequestDto.getFirstName());
+        }
+        if (clientRequestDto.getLastName() != null) {
+            client.setLastName(clientRequestDto.getLastName());
+        }
+        if (clientRequestDto.getEmail() != null) {
+            client.setEmail(clientRequestDto.getEmail());
+        }
+        if (clientRequestDto.getPhone() != null) {
+            client.setPhone(clientRequestDto.getPhone());
+        }
+        var updatedClient = clientRepository.save(client);
+
+        return new ClientResponseDto(updatedClient.getId(),
+                updatedClient.getUsername(),
+                updatedClient.getFirstName(),
+                updatedClient.getLastName(),
+                updatedClient.getEmail(),
+                updatedClient.getPhone());
     }
 }

@@ -23,6 +23,16 @@ public class ClientController {
         this.clientService = clientService;
     }
 
+    @GetMapping("/me")
+    public ClientResponseDto getMyProfile() throws ClientNotFoundException, PermissionDeniedException {
+        return clientService.getMyself();
+    }
+
+    @PutMapping("/{clientId}")
+    public ClientResponseDto updateMyProfile(@RequestBody ClientRequestDto requestDto) throws ClientNotFoundException, PermissionDeniedException {
+        return clientService.updateMyself(requestDto);
+    }
+
     @GetMapping("/{clientId}")
     public ClientResponseDto getClient(@PathVariable("clientId") String clientId) throws ClientNotFoundException, PermissionDeniedException {
         return clientService.getClient(clientId);
