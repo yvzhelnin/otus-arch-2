@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.ingress.name }}-auth
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "http://{{ .Values.auth.service.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.auth.service.port }}{{ .Values.auth.url }}"
+    nginx.ingress.kubernetes.io/auth-signin: "http://$host/api/auth/signin"
+    nginx.ingress.kubernetes.io/auth-response-headers: "Authorization"
+spec:
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+        - backend:
+            serviceName: {{ .Values.service.name }}
+            servicePort: {{ .Values.service.port }}
+          path: /api/client/
+
