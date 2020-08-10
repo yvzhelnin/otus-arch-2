@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.yvzhelnin.otus.hwauth.dto.ClientRequestDto;
 import ru.yvzhelnin.otus.hwauth.exception.AuthenticationException;
 import ru.yvzhelnin.otus.hwauth.exception.ClientNotFoundException;
+import ru.yvzhelnin.otus.hwauth.model.Client;
 import ru.yvzhelnin.otus.hwauth.service.AuthService;
 import ru.yvzhelnin.otus.hwauth.service.ClientService;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    private static final String CLIENT_ID_HEADER = "X-Client-Id";
 
     private final AuthService authService;
 
@@ -28,9 +31,11 @@ public class AuthController {
     }
 
     @RequestMapping("/auth")
-    public ResponseEntity<String> auth(@RequestHeader("Authorization") String jwtToken) {
+    public ResponseEntity<String> auth(@RequestHeader("Authorization") String jwtToken) throws ClientNotFoundException {
+        final Client client = authService.getAuthenticatedClient();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Authorization", jwtToken);
+        responseHeaders.set(CLIENT_ID_HEADER, client.getId());
 
         return ResponseEntity.ok()
                 .headers(responseHeaders)
