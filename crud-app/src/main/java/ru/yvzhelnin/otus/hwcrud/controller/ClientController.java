@@ -28,7 +28,7 @@ public class ClientController {
         return clientService.getMyself();
     }
 
-    @PutMapping("/{clientId}")
+    @PutMapping("/me")
     public ClientResponseDto updateMyProfile(@RequestBody ClientRequestDto requestDto) throws ClientNotFoundException, PermissionDeniedException {
         return clientService.updateMyself(requestDto);
     }
