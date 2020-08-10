@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yvzhelnin.otus.hwcrud.dto.ClientRequestDto;
@@ -17,6 +18,8 @@ import ru.yvzhelnin.otus.hwcrud.service.ClientService;
 @RequestMapping("/api/client")
 public class ClientController {
 
+    private static final String CLIENT_ID_HEADER = "X-Client-Id";
+
     private final ClientService clientService;
 
     public ClientController(ClientService clientService) {
@@ -24,13 +27,14 @@ public class ClientController {
     }
 
     @GetMapping("/me")
-    public ClientResponseDto getMyProfile() throws ClientNotFoundException, PermissionDeniedException {
-        return clientService.getMyself();
+    public ClientResponseDto getMyProfile(@RequestHeader(CLIENT_ID_HEADER) String clientId) throws PermissionDeniedException, ClientNotFoundException {
+        return clientService.getClient(clientId);
     }
 
     @PutMapping("/me")
-    public ClientResponseDto updateMyProfile(@RequestBody ClientRequestDto requestDto) throws ClientNotFoundException, PermissionDeniedException {
-        return clientService.updateMyself(requestDto);
+    public ClientResponseDto updateMyProfile(@RequestHeader(CLIENT_ID_HEADER) String clientId,
+                                             @RequestBody ClientRequestDto requestDto) throws ClientNotFoundException, PermissionDeniedException {
+        return clientService.updateClient(clientId, requestDto);
     }
 
     @GetMapping("/{clientId}")

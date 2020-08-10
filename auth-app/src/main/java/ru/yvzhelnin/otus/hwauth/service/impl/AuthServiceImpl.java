@@ -1,5 +1,7 @@
 package ru.yvzhelnin.otus.hwauth.service.impl;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.yvzhelnin.otus.hwauth.dto.JwtResponse;
 import ru.yvzhelnin.otus.hwauth.exception.AuthenticationException;
@@ -31,5 +33,13 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthenticationException("Entered password is incorrect!");
         }
         return jwtTokenHandler.generateToken(client);
+    }
+
+    @Override
+    public Client getAuthenticatedClient() throws ClientNotFoundException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = (String) authentication.getPrincipal();
+
+        return clientRepository.findByUsername(username).orElseThrow(() -> new ClientNotFoundException("Пользователь не найден " + username));
     }
 }

@@ -12,8 +12,4 @@ public interface ClientService {
     void deleteClient(String clientId) throws ClientNotFoundException, PermissionDeniedException;
 
     ClientResponseDto getClient(String clientId) throws ClientNotFoundException, PermissionDeniedException;
-
-    ClientResponseDto getMyself() throws ClientNotFoundException, PermissionDeniedException;
-
-    ClientResponseDto updateMyself(ClientRequestDto clientRequestDto) throws ClientNotFoundException, PermissionDeniedException;
 }
