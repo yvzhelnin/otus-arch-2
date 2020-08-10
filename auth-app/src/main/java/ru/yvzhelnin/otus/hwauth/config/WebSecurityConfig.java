@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import ru.yvzhelnin.otus.hwauth.security.JwtAuthenticationEntryPoint;
-import ru.yvzhelnin.otus.hwauth.security.JwtTokenProvider;
+import ru.yvzhelnin.otus.hwauth.security.JwtTokenHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] WHITE_LIST = {
             "/api/auth/login",
+            "/api/auth/register",
             "/actuator/health",
             "/actuator/prometheus",
             "/info/health",
@@ -48,8 +49,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public JwtTokenProvider jwtTokenProvider() {
-        return new JwtTokenProvider(jwtSecret.getBytes(), jwtExpirationInMsForAccessToken);
+    public JwtTokenHandler jwtTokenProvider() {
+        return new JwtTokenHandler(jwtSecret, jwtExpirationInMsForAccessToken);
     }
 
     @Override

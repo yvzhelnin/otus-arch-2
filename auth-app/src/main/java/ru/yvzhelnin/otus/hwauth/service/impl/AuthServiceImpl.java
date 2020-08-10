@@ -7,7 +7,7 @@ import ru.yvzhelnin.otus.hwauth.exception.AuthenticationException;
 import ru.yvzhelnin.otus.hwauth.exception.ClientNotFoundException;
 import ru.yvzhelnin.otus.hwauth.model.Client;
 import ru.yvzhelnin.otus.hwauth.repository.ClientRepository;
-import ru.yvzhelnin.otus.hwauth.security.JwtTokenProvider;
+import ru.yvzhelnin.otus.hwauth.security.JwtTokenHandler;
 import ru.yvzhelnin.otus.hwauth.service.AuthService;
 
 import java.util.Objects;
@@ -17,11 +17,11 @@ public class AuthServiceImpl implements AuthService {
 
     private final ClientRepository clientRepository;
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenHandler jwtTokenHandler;
 
-    public AuthServiceImpl(ClientRepository clientRepository, JwtTokenProvider jwtTokenProvider) {
+    public AuthServiceImpl(ClientRepository clientRepository, JwtTokenHandler jwtTokenHandler) {
         this.clientRepository = clientRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.jwtTokenHandler = jwtTokenHandler;
     }
 
     @Override
@@ -33,6 +33,6 @@ public class AuthServiceImpl implements AuthService {
         if (!Objects.equals(password, client.getPassword())) {
             throw new AuthenticationException("Entered password is incorrect!");
         }
-        return jwtTokenProvider.generateToken(client);
+        return jwtTokenHandler.generateToken(client);
     }
 }

@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 
 public class JwtTokenHandler {
 
-    private static final String TOKEN_TYPE_PARAMETER_NAME = "token_type";
     private static final String TOKEN_PREFIX = "Bearer ";
 
     private final byte[] jwtSecret;
@@ -27,15 +26,6 @@ public class JwtTokenHandler {
         Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(removePrefix(token));
-    }
-
-    public String getTokenType(String token) {
-        return Jwts.parser()
-                .setSigningKey(jwtSecret)
-                .parseClaimsJws(removePrefix(token))
-                .getBody()
-                .get(TOKEN_TYPE_PARAMETER_NAME)
-                .toString();
     }
 
     private String removePrefix(String token) {

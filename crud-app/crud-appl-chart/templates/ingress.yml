@@ -4,8 +4,9 @@ metadata:
   name: {{ .Values.ingress.name }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
-#    nginx.ingress.kubernetes.io/auth-url: "http://{{ .Values.auth.service.name }}:{{ .Values.auth.service.port }}{{ .Values.auth.url }}"
-#    nginx.ingress.kubernetes.io/auth-signin: "http://$host/crud-app/signin"
+    nginx.ingress.kubernetes.io/auth-url: "http://{{ .Values.auth.service.name }}:{{ .Values.auth.service.port }}{{ .Values.auth.url }}"
+    nginx.ingress.kubernetes.io/auth-signin: "http://$host/crud-app/api/auth/signin"
+    nginx.ingress.kubernetes.io/auth-response-headers: "Authorization"
 spec:
   rules:
     - host: {{ .Values.ingress.host }}

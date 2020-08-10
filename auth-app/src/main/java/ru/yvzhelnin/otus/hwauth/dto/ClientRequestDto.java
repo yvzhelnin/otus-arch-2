@@ -9,6 +9,8 @@ public class ClientRequestDto {
 
     private final String username;
 
+    private final String password;
+
     private final String firstName;
 
     private final String lastName;
@@ -17,8 +19,14 @@ public class ClientRequestDto {
 
     private final String phone;
 
-    public ClientRequestDto(String username, String firstName, String lastName, String email, String phone) {
+    public ClientRequestDto(String username,
+                            String password,
+                            String firstName,
+                            String lastName,
+                            String email,
+                            String phone) {
         this.username = username;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

@@ -35,10 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/info/version",
     };
 
-    private static final String[] LOGIC_WHITE_LIST = {
-            "/api/client/",
-    };
-
     @Value("${jwt.secret}")
     private String jwtSecret;
 
@@ -64,7 +60,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, INFRASTRUCTURE_WHITE_LIST).permitAll()
-                .antMatchers(HttpMethod.POST, LOGIC_WHITE_LIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtAuthenticationEntryPoint(), jwtTokenHandler()))
