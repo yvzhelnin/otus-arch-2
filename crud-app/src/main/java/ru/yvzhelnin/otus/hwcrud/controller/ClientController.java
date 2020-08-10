@@ -14,6 +14,8 @@ import ru.yvzhelnin.otus.hwcrud.exception.ClientNotFoundException;
 import ru.yvzhelnin.otus.hwcrud.exception.PermissionDeniedException;
 import ru.yvzhelnin.otus.hwcrud.service.ClientService;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/api/client")
 public class ClientController {
@@ -38,18 +40,30 @@ public class ClientController {
     }
 
     @GetMapping("/{clientId}")
-    public ClientResponseDto getClient(@PathVariable("clientId") String clientId) throws ClientNotFoundException, PermissionDeniedException {
+    public ClientResponseDto getClient(@RequestHeader(CLIENT_ID_HEADER) String authClientId,
+                                       @PathVariable("clientId") String clientId) throws ClientNotFoundException, PermissionDeniedException {
+        if (!Objects.equals(authClientId, clientId)) {
+            throw new PermissionDeniedException("Недостаточно прав для просмотра информации о пользователе");
+        }
         return clientService.getClient(clientId);
     }
 
     @PutMapping("/{clientId}")
-    public ClientResponseDto updateClient(@PathVariable("clientId") String clientId,
+    public ClientResponseDto updateClient(@RequestHeader(CLIENT_ID_HEADER) String authClientId,
+                                          @PathVariable("clientId") String clientId,
                                           @RequestBody ClientRequestDto requestDto) throws ClientNotFoundException, PermissionDeniedException {
+        if (!Objects.equals(authClientId, clientId)) {
+            throw new PermissionDeniedException("Недостаточно прав для редактирования пользователя");
+        }
         return clientService.updateClient(clientId, requestDto);
     }
 
     @DeleteMapping("/{clientId}")
-    public String deleteClient(@PathVariable("clientId") String clientId) throws PermissionDeniedException, ClientNotFoundException {
+    public String deleteClient(@RequestHeader(CLIENT_ID_HEADER) String authClientId,
+                               @PathVariable("clientId") String clientId) throws PermissionDeniedException, ClientNotFoundException {
+        if (!Objects.equals(authClientId, clientId)) {
+            throw new PermissionDeniedException("Недостаточно прав для удаления пользователя");
+        }
         clientService.deleteClient(clientId);
 
         return "Клиент с идентификатором " + clientId + " был удалён";
