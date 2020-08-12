@@ -12,13 +12,12 @@
          helm dependency update
          cd ..
          helm install crud-app ./crud-appl-chart/ --values crud-appl-chart/values.yaml -n crud-app
-         cd ..        
-         cd auth-app
+         cd ../auth-app
          helm install auth-app ./auth-appl-chart/ --values auth-appl-chart/values.yaml -n crud-app
          cd ..
          
   </li>
-  <li>Запускаем тесты Postman командой
+  <li>После старта обоих сервисов запускаем тесты Postman командой
         
         newman run auth_postman_collection.json
   </li>
