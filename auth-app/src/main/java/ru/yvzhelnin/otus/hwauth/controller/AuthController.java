@@ -71,7 +71,10 @@ public class AuthController {
     }
 
     @RequestMapping("/auth")
-    public ResponseEntity<String> auth(@CookieValue(SESSION_ID_COOKIE) String sessionId) throws AuthenticationException {
+    public ResponseEntity<String> auth(@CookieValue(value = SESSION_ID_COOKIE, required = false) String sessionId) throws AuthenticationException {
+        if (sessionId == null) {
+            throw new AuthenticationException("Please go to login and provide Login/Password");
+        }
         LOGGER.info("Performing auth for session with id = '" + sessionId + "'");
         final Client client = authService.getSessionClient(sessionId);
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -83,14 +86,16 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@CookieValue(SESSION_ID_COOKIE) String sessionId, HttpServletResponse response) {
-        authService.logout(sessionId);
-        Cookie cookie = new Cookie(SESSION_ID_COOKIE, null);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-
+    public ResponseEntity<String> logout(@CookieValue(value = SESSION_ID_COOKIE, required = false) String sessionId,
+                                         HttpServletResponse response) {
+        if (sessionId != null) {
+            authService.logout(sessionId);
+            Cookie cookie = new Cookie(SESSION_ID_COOKIE, null);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+        }
         return ResponseEntity.ok().body("Logged out");
     }
 }
