@@ -1,45 +1,56 @@
 package ru.yvzhelnin.otus.hwauth.service.impl;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.yvzhelnin.otus.hwauth.dto.JwtResponse;
 import ru.yvzhelnin.otus.hwauth.exception.AuthenticationException;
 import ru.yvzhelnin.otus.hwauth.exception.ClientNotFoundException;
 import ru.yvzhelnin.otus.hwauth.model.Client;
 import ru.yvzhelnin.otus.hwauth.repository.ClientRepository;
-import ru.yvzhelnin.otus.hwauth.security.JwtTokenHandler;
 import ru.yvzhelnin.otus.hwauth.service.AuthService;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
     private final ClientRepository clientRepository;
 
-    private final JwtTokenHandler jwtTokenHandler;
+    private final Map<String, Client> sessionStorage = new HashMap<>();
 
-    public AuthServiceImpl(ClientRepository clientRepository, JwtTokenHandler jwtTokenHandler) {
+    public AuthServiceImpl(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
-        this.jwtTokenHandler = jwtTokenHandler;
     }
 
     @Override
-    public JwtResponse authenticate(String username, String password) throws ClientNotFoundException, AuthenticationException {
-        final Client client = clientRepository.findByUsername(username)
-                .orElseThrow(() -> new ClientNotFoundException("Client with username '" + username + "' hasn't been found!"));
-        if (!Objects.equals(password, client.getPassword())) {
-            throw new AuthenticationException("Entered password is incorrect!");
+    public Client getSessionClient(String sessionId) throws AuthenticationException {
+        if (sessionStorage.containsKey(sessionId)) {
+            return sessionStorage.get(sessionId);
         }
-        return jwtTokenHandler.generateToken(client);
+        throw new AuthenticationException("Session with id = '" + "' does not exist");
     }
 
     @Override
-    public Client getAuthenticatedClient() throws ClientNotFoundException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = (String) authentication.getPrincipal();
+    public String createSession(String username, String password) throws AuthenticationException, ClientNotFoundException {
+        Client client = clientRepository.findByUsername(username).orElseThrow(() -> new ClientNotFoundException("Пользователь с именем '" + username + "' не найден"));
+        if (!Objects.equals(password, client.getPassword())) {
+            throw new AuthenticationException("Пароли не совпадают");
+        }
+        String sessionId = UUID.randomUUID().toString();
+        sessionStorage.put(sessionId, client);
 
-        return clientRepository.findByUsername(username).orElseThrow(() -> new ClientNotFoundException("Пользователь не найден " + username));
+        return sessionId;
+    }
+
+    @Override
+    public void logout(String sessionId) {
+        sessionStorage.remove(sessionId);
+    }
+
+    @Override
+    public Map<String, Client> getSessions() {
+        return Collections.unmodifiableMap(sessionStorage);
     }
 }
