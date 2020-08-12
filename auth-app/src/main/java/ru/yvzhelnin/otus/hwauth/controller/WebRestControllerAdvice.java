@@ -14,11 +14,13 @@ public class WebRestControllerAdvice {
 
     @ExceptionHandler({ClientNotFoundException.class})
     public ErrorMessage handleMethodArgumentNotValidException(ClientNotFoundException e, HttpServletResponse response) {
+        response.setStatus(HttpStatus.NOT_FOUND.value());
         return new ErrorMessage(HttpStatus.NOT_FOUND.value(), e.getMessage());
     }
 
     @ExceptionHandler({AuthenticationException.class})
     public ErrorMessage handleMethodArgumentNotValidException(AuthenticationException e, HttpServletResponse response) {
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         return new ErrorMessage(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
     }
 }
