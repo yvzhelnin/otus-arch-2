@@ -9,9 +9,9 @@
          Сначала ставим crud-app и auth-app набором команд:
          
          cd crud-app/crud-appl-chart
-         helm dependency update</p>
+         helm dependency update
          cd ..
-         helm install crud-app ./crud-appl-chart/ --values crud-appl-chart/values.yaml -n crud-app</p>
+         helm install crud-app ./crud-appl-chart/ --values crud-appl-chart/values.yaml -n crud-app
          cd ..        
          cd auth-app
          helm install auth-app ./auth-appl-chart/ --values auth-appl-chart/values.yaml -n crud-app
