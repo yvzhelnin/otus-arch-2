@@ -31,8 +31,6 @@ service:
 ingress:
   host: arch.homework
   name: crud-ingress
-  path: /crud-app($|/)(.*)
-  pathType: Prefix
 
 postgresql:
   postgresqlUsername: db_user
@@ -52,3 +50,6 @@ auth:
     name: auth-appl-service
     port: 8000
   url: /api/auth/auth
+  signin: /api/auth/signin
+  path: /api/client
+  pathType: Prefix

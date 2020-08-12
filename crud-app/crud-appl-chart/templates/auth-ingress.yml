@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.ingress.name }}-auth
   annotations:
     nginx.ingress.kubernetes.io/auth-url: "http://{{ .Values.auth.service.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.auth.service.port }}{{ .Values.auth.url }}"
-    nginx.ingress.kubernetes.io/auth-signin: "http://$host/api/auth/signin"
+    nginx.ingress.kubernetes.io/auth-signin: "http://$host{{ .Values.auth.signin }}"
     nginx.ingress.kubernetes.io/auth-response-headers: "X-Client-Id"
 spec:
   rules:
@@ -14,4 +14,6 @@ spec:
         - backend:
             serviceName: {{ .Values.service.name }}
             servicePort: {{ .Values.service.port }}
-          path: /api/client/me
+          path: {{ .Values.auth.path }}
+          pathType: {{ .Values.auth.pathType }}
+

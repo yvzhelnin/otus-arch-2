@@ -1,0 +1,498 @@
+{
+	"info": {
+		"_postman_id": "9593e7cb-5072-4ad3-a259-4bb70068e0cb",
+		"name": "auth-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CREATE CLIENT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "20c44bb1-293b-46b2-9cdc-0ba9ced34a80",
+						"exec": [
+							"var createdClient = JSON.parse(responseBody);",
+							"",
+							"pm.collectionVariables.set(\"firstClientId\", createdClient.id);",
+							"pm.collectionVariables.set(\"firstClientUsername\", createdClient.username);",
+							"pm.collectionVariables.set(\"firstClientPassword\", createdClient.password);",
+							"",
+							"console.log(createdClient)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1697e708-fefc-4f83-9cbf-e5704beb204f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Host",
+						"value": "arch.homework",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"{{$randomUserName}}\",\"password\":\"{{$randomPassword}}\",\"firstName\":\"{{$randomFirstName}}\",\"lastName\":\"{{$randomLastName}}\",\"email\":\"{{$randomEmail}}\",\"phone\":\"{{$randomPhoneNumber}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0115d0fd-acdc-40ba-9904-89c351caf16e",
+						"exec": [
+							"pm.collectionVariables.set(\"clientId\", responseBody);",
+							"console.log(responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Username",
+						"value": "{{firstClientUsername}}",
+						"type": "text"
+					},
+					{
+						"key": "X-Password",
+						"value": "{{firstClientPassword}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"king\",\"firstName\":\"John\",\"lastName\":\"Dnow\",\"email\":\"john@dnow.com\",\"phone\":\"+7 777 777 77 77\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ME",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ca25ac33-7f7e-4524-8935-81b88e05a1e9",
+						"exec": [
+							"console.log(responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{baseUrl}}/api/client/me",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"client",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE ME",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e65b27f6-8e80-492b-a2ca-d36bfcba3e79",
+						"exec": [
+							"console.log(responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"firstName\":\"{{$randomFirstName}}\",\"lastName\":\"{{$randomLastName}}\",\"email\":\"{{$randomEmail}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/client/me",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"client",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGOUT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4e7c72a7-bb47-49d1-86d4-ba2d7aede381",
+						"exec": [
+							"pm.collectionVariables.set(\"clientId\", responseBody);",
+							"console.log(responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"king\",\"firstName\":\"John\",\"lastName\":\"Dnow\",\"email\":\"john@dnow.com\",\"phone\":\"+7 777 777 77 77\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/auth/logout",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE FIRST CLIENT AFTER LOGOUT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5e577762-5b74-4bd8-9080-29b5adc7bcc1",
+						"exec": [
+							"console.log(responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"firstName\":\"{{$randomFirstName}}\",\"lastName\":\"{{$randomLastName}}\",\"email\":\"{{$randomEmail}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/client/{{firstClientId}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"client",
+						"{{firstClientId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE SECOND CLIENT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c74fb1e-5677-467f-8776-e6bdab7c6482",
+						"exec": [
+							"var createdClient = JSON.parse(responseBody);",
+							"",
+							"pm.collectionVariables.set(\"secondClientId\", createdClient.id);",
+							"pm.collectionVariables.set(\"secondClientUsername\", createdClient.username);",
+							"pm.collectionVariables.set(\"secondClientPassword\", createdClient.password);",
+							"",
+							"console.log(createdClient)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"{{$randomUserName}}\",\"password\":\"{{$randomPassword}}\",\"firstName\":\"{{$randomFirstName}}\",\"lastName\":\"{{$randomLastName}}\",\"email\":\"{{$randomEmail}}\",\"phone\":\"{{$randomPhoneNumber}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN SECOND CLIENT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cec603b5-eb18-4dd0-a964-1114206f097c",
+						"exec": [
+							"pm.collectionVariables.set(\"clientId\", responseBody);",
+							"console.log(responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Username",
+						"value": "{{secondClientUsername}}",
+						"type": "text"
+					},
+					{
+						"key": "X-Password",
+						"value": "{{secondClientPassword}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/auth/login?X-Username={{secondClientUsername}}&X-Password={{secondClientPassword}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"auth",
+						"login"
+					],
+					"query": [
+						{
+							"key": "X-Username",
+							"value": "{{secondClientUsername}}"
+						},
+						{
+							"key": "X-Password",
+							"value": "{{secondClientPassword}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE FIRST CLIENT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "912cd38b-d792-4ac6-8c7d-e78034de75c4",
+						"exec": [
+							"console.log(responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"firstName\":\"{{$randomFirstName}}\",\"lastName\":\"{{$randomLastName}}\",\"email\":\"{{$randomEmail}}\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/client/{{firstClientId}}",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"client",
+						"{{firstClientId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "79983ecb-8b24-466d-84d2-dc289e5a78d3",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "1217eb46-631f-40c5-b1af-e667a931b294",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "368f062b-241e-4c19-9d2f-f50fb1ab50e2",
+			"key": "baseUrl",
+			"value": "arch.homework"
+		},
+		{
+			"id": "46332cdb-2e97-4bf6-971e-aaa5979b0c33",
+			"key": "firstClientId",
+			"value": ""
+		},
+		{
+			"id": "a9f5caaa-e22e-4ab8-81a2-0cbae4a88ac7",
+			"key": "firstClientPassword",
+			"value": ""
+		},
+		{
+			"id": "5fddb0bc-d7bf-4b24-ad74-622e613a08e9",
+			"key": "firstClientUsername",
+			"value": ""
+		},
+		{
+			"id": "badcacf8-92ec-4ad7-823b-35af4a6d98ac",
+			"key": "clientId",
+			"value": ""
+		},
+		{
+			"id": "6a417b95-c3ea-4e43-990c-6f62653ae778",
+			"key": "secondClientId",
+			"value": ""
+		},
+		{
+			"id": "f1b13f49-5a47-4ef6-961d-8af612215873",
+			"key": "secondClientPassword",
+			"value": ""
+		},
+		{
+			"id": "e629184d-d1ec-4676-bb7f-0ccd973e2203",
+			"key": "secondClientUsername",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}
