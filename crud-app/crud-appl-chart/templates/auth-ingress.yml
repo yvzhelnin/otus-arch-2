@@ -15,4 +15,3 @@ spec:
             serviceName: {{ .Values.service.name }}
             servicePort: {{ .Values.service.port }}
           path: /api/client/me
-

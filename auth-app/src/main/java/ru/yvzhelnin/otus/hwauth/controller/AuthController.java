@@ -58,6 +58,7 @@ public class AuthController {
         final String sessionId = authService.createSession(username, password);
         Cookie cookie = new Cookie(SESSION_ID_COOKIE, sessionId);
         cookie.setHttpOnly(true);
+        cookie.setPath("/");
         cookie.setMaxAge(MAX_SESSION_SECONDS);
         response.addCookie(cookie);
 
@@ -86,6 +87,7 @@ public class AuthController {
         authService.logout(sessionId);
         Cookie cookie = new Cookie(SESSION_ID_COOKIE, null);
         cookie.setHttpOnly(true);
+        cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
 
