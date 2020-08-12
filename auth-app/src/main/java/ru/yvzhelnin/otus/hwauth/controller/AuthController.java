@@ -2,6 +2,7 @@ package ru.yvzhelnin.otus.hwauth.controller;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,11 +16,18 @@ import ru.yvzhelnin.otus.hwauth.model.Client;
 import ru.yvzhelnin.otus.hwauth.service.AuthService;
 import ru.yvzhelnin.otus.hwauth.service.ClientService;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
+    private static final String SESSION_ID_COOKIE = "sessionId";
     private static final String CLIENT_ID_HEADER = "X-Client-Id";
+
+    private static final int MAX_SESSION_SECONDS = 600;
 
     private final AuthService authService;
 
@@ -30,28 +38,27 @@ public class AuthController {
         this.clientService = clientService;
     }
 
-    @RequestMapping("/auth")
-    public ResponseEntity<String> auth(@RequestHeader("Authorization") String jwtToken) throws ClientNotFoundException {
-        final Client client = authService.getAuthenticatedClient();
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Authorization", jwtToken);
-        responseHeaders.set(CLIENT_ID_HEADER, client.getId());
-
-        return ResponseEntity.ok()
-                .headers(responseHeaders)
-                .body("OK");
+    @GetMapping("/sessions")
+    public Map<String, Client> getSessions() {
+        return authService.getSessions();
     }
 
-    @RequestMapping("/login")
-    public ResponseEntity<String> login(@RequestHeader("X-Username") String username, @RequestHeader("X-Password") String password)
-            throws AuthenticationException, ClientNotFoundException {
-        var jwt = authService.authenticate(username, password);
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Authorization", jwt.getJwtToken());
+    @PostMapping("/register")
+    public String register(@RequestBody ClientRequestDto requestDto) {
+        return clientService.createClient(requestDto);
+    }
 
-        return ResponseEntity.ok()
-                .headers(responseHeaders)
-                .body("Successfully logged in");
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestHeader("X-Username") String username,
+                                        @RequestHeader("X-Password") String password,
+                                        HttpServletResponse response) throws AuthenticationException, ClientNotFoundException {
+        final String sessionId = authService.createSession(username, password);
+        Cookie cookie = new Cookie(SESSION_ID_COOKIE, sessionId);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(MAX_SESSION_SECONDS);
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok().body("Successfully logged in");
     }
 
     @GetMapping("/signin")
@@ -59,8 +66,14 @@ public class AuthController {
         return "{\"message\": \"Please go to login and provide Login/Password\"}";
     }
 
-    @PostMapping("/register")
-    public String register(@RequestBody ClientRequestDto requestDto) {
-        return clientService.createClient(requestDto);
+    @RequestMapping("/auth")
+    public ResponseEntity<String> auth(@CookieValue(SESSION_ID_COOKIE) String sessionId) throws AuthenticationException {
+        final Client client = authService.getSessionClient(sessionId);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(CLIENT_ID_HEADER, client.getId());
+
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body("OK");
     }
 }
