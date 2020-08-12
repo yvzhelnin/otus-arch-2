@@ -51,4 +51,4 @@ auth:
   service:
     name: auth-appl-service
     port: 8000
-  url: /api/auth/check
+  url: /api/auth/auth
