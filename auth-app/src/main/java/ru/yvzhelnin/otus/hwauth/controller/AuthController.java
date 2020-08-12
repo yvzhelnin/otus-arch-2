@@ -1,5 +1,7 @@
 package ru.yvzhelnin.otus.hwauth.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -23,6 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
     private static final String SESSION_ID_COOKIE = "sessionId";
     private static final String CLIENT_ID_HEADER = "X-Client-Id";
@@ -68,12 +71,24 @@ public class AuthController {
 
     @RequestMapping("/auth")
     public ResponseEntity<String> auth(@CookieValue(SESSION_ID_COOKIE) String sessionId) throws AuthenticationException {
+        LOGGER.info("Performing auth for session with id = '" + sessionId + "'");
         final Client client = authService.getSessionClient(sessionId);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set(CLIENT_ID_HEADER, client.getId());
 
         return ResponseEntity.ok()
                 .headers(responseHeaders)
-                .body("OK");
+                .body(sessionId);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@CookieValue(SESSION_ID_COOKIE) String sessionId, HttpServletResponse response) {
+        authService.logout(sessionId);
+        Cookie cookie = new Cookie(SESSION_ID_COOKIE, null);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok().body("Logged out");
     }
 }
