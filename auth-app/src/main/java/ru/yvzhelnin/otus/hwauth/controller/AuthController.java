@@ -47,7 +47,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody ClientRequestDto requestDto) {
+    public Client register(@RequestBody ClientRequestDto requestDto) {
         return clientService.createClient(requestDto);
     }
 

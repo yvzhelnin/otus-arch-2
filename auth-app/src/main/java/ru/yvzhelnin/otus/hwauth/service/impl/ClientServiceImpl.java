@@ -20,7 +20,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Transactional
     @Override
-    public String createClient(ClientRequestDto clientRequestDto) {
+    public Client createClient(ClientRequestDto clientRequestDto) {
         final String clientId = UUID.randomUUID().toString();
         final Client client = new Client();
         client.setId(clientId);
@@ -31,6 +31,6 @@ public class ClientServiceImpl implements ClientService {
         client.setEmail(clientRequestDto.getEmail());
         client.setPhone(clientRequestDto.getPhone());
 
-        return clientRepository.save(client).getId();
+        return clientRepository.save(client);
     }
 }
