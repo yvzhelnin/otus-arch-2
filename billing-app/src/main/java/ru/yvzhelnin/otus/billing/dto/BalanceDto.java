@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.billing.repository;
+package ru.yvzhelnin.otus.billing.dto;
 
 import lombok.Getter;
 import lombok.Setter;

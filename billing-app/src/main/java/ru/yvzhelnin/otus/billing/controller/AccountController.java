@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.yvzhelnin.otus.billing.dto.BalanceDto;
 import ru.yvzhelnin.otus.billing.exception.AccountNotFoundException;
 import ru.yvzhelnin.otus.billing.exception.ClientNotFoundException;
 import ru.yvzhelnin.otus.billing.exception.NotEnoughMoneyException;
 import ru.yvzhelnin.otus.billing.exception.PermissionDeniedException;
-import ru.yvzhelnin.otus.billing.repository.BalanceDto;
 import ru.yvzhelnin.otus.billing.service.AccountService;
 
 import java.math.BigDecimal;
@@ -53,7 +53,7 @@ public class AccountController {
         return new BalanceDto(accountService.deposit(clientId, sum));
     }
 
-    @PostMapping("/balance/{clientId}")
+    @PutMapping("/balance/{clientId}")
     public BalanceDto withdraw(@RequestHeader(CLIENT_ID_HEADER) String clientIdHeaderValue,
                                @PathVariable("clientId") String clientId,
                                @RequestParam("sum") BigDecimal sum)
