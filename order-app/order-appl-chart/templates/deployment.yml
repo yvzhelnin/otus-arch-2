@@ -24,21 +24,26 @@ spec:
             - name: {{ .Values.deployment.container.portName }}
               containerPort: {{ .Values.deployment.container.port }}
           env:
-            - name: spring_datasource_username
+            - name: spring_kafka_bootstrap_server
               valueFrom:
                 secretKeyRef:
-                  name: spring-datasource-secrets
-                  key: spring_datasource_username
-            - name: spring_datasource_password
+                  name: kafka-secrets
+                  key: spring_kafka_bootstrap_server
+            - name: spring_kafka_producer_client_id
               valueFrom:
                 secretKeyRef:
-                  name: spring-datasource-secrets
-                  key: spring_datasource_password
-            - name: spring_datasource_url
+                  name: kafka-secrets
+                  key: spring_kafka_producer_client_id
+            - name: spring_kafka_consumer_group_id
               valueFrom:
                 secretKeyRef:
-                  name: spring-datasource-secrets
-                  key: spring_datasource_url
+                  name: kafka-secrets
+                  key: spring_kafka_consumer_group_id
+            - name: kafka_notification_topic_name
+              valueFrom:
+                secretKeyRef:
+                  name: kafka-secrets
+                  key: kafka_notification_topic_name
           livenessProbe:
             httpGet:
               port: {{ .Values.deployment.container.port }}
