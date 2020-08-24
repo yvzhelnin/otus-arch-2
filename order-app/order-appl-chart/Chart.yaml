@@ -1,0 +1,14 @@
+apiVersion: v2
+name: order-appl-chart
+description: A Helm chart for Order Otus arch HW application
+
+type: application
+version: 0.1.0
+appVersion: v1.0
+
+dependencies:
+  - name: kafka
+    version: 2.x.x
+    repository: https://charts.bitnami.com/bitnami
+    tags:
+      - kafka-service

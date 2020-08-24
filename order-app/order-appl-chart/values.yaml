@@ -1,0 +1,41 @@
+replicaCount: 2
+
+deployment:
+  name: order-appl-deployment
+  image:
+    repo: yvzhelnin/order-appl
+    pullPolicy: Always
+  label: order-java-appl
+  initContainer:
+    name: init-pg
+    image: busybox
+  container:
+    name: order-pod-java
+    portName: web
+    port: 80
+  readiness:
+    initialDelaySeconds: 40
+    periodSeconds: 5
+    timeoutSeconds: 2
+  liveness:
+    initialDelaySeconds: 50
+    periodSeconds: 5
+service:
+  name: order-appl-service
+  label: order-appl-service-label
+  type: NodePort
+  protocol: TCP
+  portName: service-web
+  port: 8000
+
+kafka:
+  bootstrapServer: localhost:9092
+  clientId: kafka-client
+  consumerGroup: notification-group
+  notificationTopicName: notification-topic
+
+metrics:
+  serviceMonitor:
+    enabled: true
+    interval: 15s
+    path: /actuator/prometheus
