@@ -52,4 +52,17 @@ auth:
   url: /api/auth/auth
   signin: /api/auth/signin
   path: /api/client
+
+  billingServiceName: billing-appl-service
+  billingServicePort: 8000
+  billingServicePath: /api/billing
+
+  orderServiceName: billing-appl-service
+  orderServicePort: 8000
+  orderServicePath: /api/order
+
+  notificationServiceName: billing-appl-service
+  notificationServicePort: 8000
+  notificationServicePath: /api/notification
+
   pathType: Prefix

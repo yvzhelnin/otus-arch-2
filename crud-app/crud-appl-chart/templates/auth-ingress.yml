@@ -16,4 +16,18 @@ spec:
             servicePort: {{ .Values.service.port }}
           path: {{ .Values.auth.path }}
           pathType: {{ .Values.auth.pathType }}
-
+        - backend:
+            serviceName: {{ .Values.auth.billingServiceName }}
+            servicePort: {{ .Values.auth.billingServicePort }}
+          path: {{ .Values.auth.billingServicePath }}
+          pathType: {{ .Values.auth.pathType }}
+        - backend:
+            serviceName: {{ .Values.auth.orderServiceName }}
+            servicePort: {{ .Values.auth.orderServicePort }}
+          path: {{ .Values.auth.orderServicePath }}
+          pathType: {{ .Values.auth.pathType }}
+        - backend:
+            serviceName: {{ .Values.auth.notificationServiceName }}
+            servicePort: {{ .Values.auth.notificationServicePort }}
+          path: {{ .Values.auth.notificationServicePath }}
+          pathType: {{ .Values.auth.pathType }}

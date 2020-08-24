@@ -5,4 +5,4 @@
 <p>docker push yvzhelnin/auth-appl:v0.1</p> 
 
 # HELM
-<p>helm install auth-app ./auth-appl-chart/ --values auth-appl-chart/values.yaml -n crud-app</p>
+<p>helm install auth-app ./auth-appl-chart/ --values auth-appl-chart/values.yaml</p>
