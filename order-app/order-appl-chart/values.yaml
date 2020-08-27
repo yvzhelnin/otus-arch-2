@@ -29,10 +29,11 @@ service:
   port: 8000
 
 kafka:
-  bootstrapServer: localhost:9092
+  port: "9092"
   clientId: kafka-client
   consumerGroup: notification-group
   notificationTopicName: notification-topic
+  replicas: 1
 
 metrics:
   serviceMonitor:
