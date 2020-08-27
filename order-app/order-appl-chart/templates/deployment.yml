@@ -24,6 +24,11 @@ spec:
             - name: {{ .Values.deployment.container.portName }}
               containerPort: {{ .Values.deployment.container.port }}
           env:
+            - name: billing_app_url_withdraw
+              valueFrom:
+                secretKeyRef:
+                  name: order-app-secrets
+                  key: billing_app_url_withdraw
             - name: spring_kafka_bootstrap_server
               valueFrom:
                 secretKeyRef:

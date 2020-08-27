@@ -1,5 +1,8 @@
 replicaCount: 1
 
+app:
+  withdrawUrl: http://billing-appl-service/api/billing/withdraw
+
 deployment:
   name: order-appl-deployment
   image:
