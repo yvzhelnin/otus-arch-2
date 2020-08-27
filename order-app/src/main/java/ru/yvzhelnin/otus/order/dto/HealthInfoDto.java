@@ -1,9 +1,7 @@
 package ru.yvzhelnin.otus.order.dto;
 
 import lombok.Getter;
-import org.springframework.data.annotation.Immutable;
 
-@Immutable
 @Getter
 public class HealthInfoDto {
 
