@@ -1,4 +1,4 @@
-replicaCount: 2
+replicaCount: 1
 
 deployment:
   name: order-appl-deployment
@@ -7,7 +7,7 @@ deployment:
     pullPolicy: Always
   label: order-java-appl
   initContainer:
-    name: init-pg
+    name: init-kafka
     image: busybox
   container:
     name: order-pod-java
