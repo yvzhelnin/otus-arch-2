@@ -23,11 +23,11 @@ public class OrderController {
     }
 
     @PostMapping("/")
-    public void createAccount(@RequestHeader(OrderServiceImpl.CLIENT_ID_HEADER) String clientIdHeaderValue,
-                              @RequestParam("clientId") String clientId,
-                              @RequestParam("cost") BigDecimal cost) throws PermissionDeniedException {
+    public void placeOrder(@RequestHeader(OrderServiceImpl.CLIENT_ID_HEADER) String clientIdHeaderValue,
+                           @RequestParam("clientId") String clientId,
+                           @RequestParam("cost") BigDecimal cost) throws PermissionDeniedException {
         if (!Objects.equals(clientIdHeaderValue, clientId)) {
-            throw new PermissionDeniedException("Недостаточно прав для действия с аккаунтом другого пользователя");
+            throw new PermissionDeniedException("Невозможно создать заказ для другого пользователя");
         }
         orderService.placeOrder(clientId, cost);
     }
