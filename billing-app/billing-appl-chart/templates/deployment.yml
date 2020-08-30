@@ -38,13 +38,13 @@ spec:
           livenessProbe:
             httpGet:
               port: {{ .Values.deployment.container.port }}
-              path: /info/health
+              path: /billing-app/info/health
             initialDelaySeconds: {{ .Values.deployment.liveness.initialDelaySeconds }}
             periodSeconds: {{ .Values.deployment.liveness.periodSeconds }}
             timeoutSeconds: {{ .Values.deployment.liveness.timeoutSeconds }}
           readinessProbe:
             httpGet:
               port: {{ .Values.deployment.container.port }}
-              path: /info/status
+              path: /billing-app/info/status
             initialDelaySeconds: {{ .Values.deployment.readiness.initialDelaySeconds }}
             periodSeconds: {{ .Values.deployment.readiness.periodSeconds }}

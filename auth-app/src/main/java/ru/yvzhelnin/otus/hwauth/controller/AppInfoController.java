@@ -7,7 +7,7 @@ import ru.yvzhelnin.otus.hwauth.dto.HealthInfoDto;
 import ru.yvzhelnin.otus.hwauth.dto.VersionDto;
 
 @RestController
-@RequestMapping("/info")
+@RequestMapping("/auth-app/info")
 public class AppInfoController {
 
     @GetMapping("/health")

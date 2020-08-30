@@ -7,7 +7,7 @@ import ru.yvzhelnin.otus.billing.dto.HealthInfoDto;
 import ru.yvzhelnin.otus.billing.dto.VersionDto;
 
 @RestController
-@RequestMapping("/info")
+@RequestMapping("/billing-app/info")
 public class AppInfoController {
 
     @GetMapping("/health")
