@@ -3,6 +3,7 @@ package ru.yvzhelnin.otus.billing.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -53,7 +54,7 @@ public class AccountController {
         return new BalanceDto(accountService.deposit(clientId, sum));
     }
 
-    @PutMapping("/balance/{clientId}")
+    @PatchMapping("/balance/{clientId}")
     public BalanceDto withdraw(@RequestHeader(CLIENT_ID_HEADER) String clientIdHeaderValue,
                                @PathVariable("clientId") String clientId,
                                @RequestParam("sum") BigDecimal sum)
