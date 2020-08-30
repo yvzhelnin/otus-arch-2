@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.order;
+package ru.yvzhelnin.otus.hwcrud;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
