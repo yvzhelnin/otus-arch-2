@@ -9,6 +9,6 @@ appVersion: v1.0
 dependencies:
   - name: kafka
     version: x.x.x
-    repository: http://storage.googleapis.com/kubernetes-charts-incubator
+    repository: https://charts.bitnami.com/bitnami
     tags:
       - kafka-service

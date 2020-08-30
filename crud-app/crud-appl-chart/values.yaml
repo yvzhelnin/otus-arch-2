@@ -39,12 +39,6 @@ postgresql:
   service:
     port: "5432"
 
-metrics:
-  serviceMonitor:
-    enabled: true
-    interval: 15s
-    path: /actuator/prometheus
-
 auth:
   service:
     name: auth-appl-service
