@@ -55,13 +55,13 @@ auth:
 
   billingServiceName: billing-appl-service
   billingServicePort: 8000
-  billingServicePath: /api/billing
+  billingServicePath: /api/account
 
-  orderServiceName: billing-appl-service
+  orderServiceName: order-appl-service
   orderServicePort: 8000
   orderServicePath: /api/order
 
-  notificationServiceName: billing-appl-service
+  notificationServiceName: notification-appl-service
   notificationServicePort: 8000
   notificationServicePath: /api/notification
 
