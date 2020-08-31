@@ -54,7 +54,7 @@ public class AccountController {
         return new BalanceDto(accountService.deposit(clientId, sum));
     }
 
-    @PatchMapping("/balance/{clientId}")
+    @PostMapping("/balance/{clientId}")
     public BalanceDto withdraw(@RequestHeader(CLIENT_ID_HEADER) String clientIdHeaderValue,
                                @PathVariable("clientId") String clientId,
                                @RequestParam("sum") BigDecimal sum)
