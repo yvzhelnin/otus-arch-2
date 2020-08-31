@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void placeOrder(String clientId, BigDecimal cost) {
-        final String url = billingAppUrl + "/" + clientId;
+        final String url = billingAppUrl + "/" + clientId + "?sum=" + cost;
         LOGGER.info("Assembled URL for money withdrawing: '{}'", url);
         RestTemplate restTemplate = new RestTemplate();
 

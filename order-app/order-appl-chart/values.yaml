@@ -1,7 +1,7 @@
 replicaCount: 1
 
 app:
-  withdrawUrl: http://billing-appl-service/api/billing/withdraw
+  withdrawUrl: http://billing-appl-service.crud-app.svc.cluster.local:8000/api/account/balance
 
 deployment:
   name: order-appl-deployment
@@ -38,8 +38,3 @@ kafka:
   notificationTopicName: notification-topic
   replicas: 1
 
-metrics:
-  serviceMonitor:
-    enabled: true
-    interval: 15s
-    path: /actuator/prometheus
