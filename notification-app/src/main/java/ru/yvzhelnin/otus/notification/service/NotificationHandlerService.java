@@ -1,11 +1,12 @@
 package ru.yvzhelnin.otus.notification.service;
 
-import java.time.LocalDateTime;
-import java.util.Map;
+import ru.yvzhelnin.otus.notification.dto.NotificationDto;
+
+import java.util.List;
 
 public interface NotificationHandlerService {
 
     void consumeNotification(String message);
 
-    Map<LocalDateTime, String> getNotifications();
+    List<NotificationDto> getNotifications();
 }
