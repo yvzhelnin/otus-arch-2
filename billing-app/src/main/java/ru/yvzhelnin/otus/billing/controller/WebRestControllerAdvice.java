@@ -31,6 +31,7 @@ public class WebRestControllerAdvice {
 
     @ExceptionHandler({NotEnoughMoneyException.class})
     public ErrorMessage handleNotEnoughMoneyException(NotEnoughMoneyException e, HttpServletResponse response) {
-        return new ErrorMessage(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        response.setStatus(HttpStatus.PAYMENT_REQUIRED.value());
+        return new ErrorMessage(HttpStatus.PAYMENT_REQUIRED.value(), e.getMessage());
     }
 }

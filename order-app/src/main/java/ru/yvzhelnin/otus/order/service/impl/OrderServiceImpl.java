@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
         LOGGER.info("Status: {}, sending the notification", response.getStatusCode());
         if (response.getStatusCode() == HttpStatus.OK) {
             notificationService.sendNotification(NotificationType.SUCCESS, clientId, cost);
-        } else {
+        } else if (response.getStatusCode() == HttpStatus.PAYMENT_REQUIRED) {
             notificationService.sendNotification(NotificationType.FAIL, clientId, cost);
         }
     }
