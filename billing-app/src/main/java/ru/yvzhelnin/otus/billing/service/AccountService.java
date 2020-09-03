@@ -1,8 +1,8 @@
 package ru.yvzhelnin.otus.billing.service;
 
+import ru.yvzhelnin.otus.billing.enums.WithdrawResultType;
 import ru.yvzhelnin.otus.billing.exception.AccountNotFoundException;
 import ru.yvzhelnin.otus.billing.exception.ClientNotFoundException;
-import ru.yvzhelnin.otus.billing.exception.NotEnoughMoneyException;
 
 import java.math.BigDecimal;
 
@@ -12,7 +12,7 @@ public interface AccountService {
 
     BigDecimal deposit(String clientId, BigDecimal sum) throws ClientNotFoundException, AccountNotFoundException;
 
-    BigDecimal withdraw(String clientId, BigDecimal sum) throws ClientNotFoundException, AccountNotFoundException, NotEnoughMoneyException;
+    WithdrawResultType withdraw(String clientId, BigDecimal sum) throws ClientNotFoundException, AccountNotFoundException;
 
     BigDecimal getBalance(String clientId) throws ClientNotFoundException, AccountNotFoundException;
 }

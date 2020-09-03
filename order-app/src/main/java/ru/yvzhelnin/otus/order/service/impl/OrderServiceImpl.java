@@ -6,23 +6,26 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.yvzhelnin.otus.order.dto.notification.NotificationType;
+import ru.yvzhelnin.otus.order.enums.WithdrawResultType;
 import ru.yvzhelnin.otus.order.service.NotificationService;
 import ru.yvzhelnin.otus.order.service.OrderService;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class OrderServiceImpl implements OrderService {
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
 
     public static final String CLIENT_ID_HEADER = "X-Client-Id";
+
+    private static final String WITHDRAW_RESULT_HEADER = "X-Withdraw-Result";
 
     @Value("${order.billing-app.url.withdraw}")
     private String billingAppUrl;
@@ -46,10 +49,12 @@ public class OrderServiceImpl implements OrderService {
         HttpEntity requestEntity = new HttpEntity(headers);
         ResponseEntity response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class, parameters);
 
-        LOGGER.info("Status: {}, sending the notification", response.getStatusCode());
-        if (response.getStatusCode() == HttpStatus.OK) {
+        String result = response.getHeaders().getFirst(WITHDRAW_RESULT_HEADER);
+        LOGGER.info("Result: {}, sending the notification", result);
+
+        if (Objects.equals(result, WithdrawResultType.OK.name())) {
             notificationService.sendNotification(NotificationType.SUCCESS, clientId, cost);
-        } else if (response.getStatusCode() == HttpStatus.PAYMENT_REQUIRED) {
+        } else {
             notificationService.sendNotification(NotificationType.FAIL, clientId, cost);
         }
     }

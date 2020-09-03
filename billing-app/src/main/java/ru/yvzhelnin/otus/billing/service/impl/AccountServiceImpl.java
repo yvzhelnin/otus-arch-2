@@ -1,9 +1,9 @@
 package ru.yvzhelnin.otus.billing.service.impl;
 
 import org.springframework.stereotype.Service;
+import ru.yvzhelnin.otus.billing.enums.WithdrawResultType;
 import ru.yvzhelnin.otus.billing.exception.AccountNotFoundException;
 import ru.yvzhelnin.otus.billing.exception.ClientNotFoundException;
-import ru.yvzhelnin.otus.billing.exception.NotEnoughMoneyException;
 import ru.yvzhelnin.otus.billing.model.Account;
 import ru.yvzhelnin.otus.billing.model.Client;
 import ru.yvzhelnin.otus.billing.repository.AccountRepository;
@@ -47,19 +47,19 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public BigDecimal withdraw(String clientId, BigDecimal sum) throws ClientNotFoundException, AccountNotFoundException, NotEnoughMoneyException {
+    public WithdrawResultType withdraw(String clientId, BigDecimal sum) throws ClientNotFoundException, AccountNotFoundException {
         final Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Клиент с идентификатором " + clientId + " не найден"));
         Account account = accountRepository.findByClient(client)
                 .orElseThrow(() -> new AccountNotFoundException("Для клиента с идентификатором " + clientId + " не найден лицевой счёт"));
         final BigDecimal newBalance = account.getBalance().subtract(sum);
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
-            throw new NotEnoughMoneyException("Недостаточно средств");
+            return WithdrawResultType.NOT_ENOUGH_MONEY;
         }
         account.setBalance(newBalance);
         accountRepository.save(account);
 
-        return newBalance;
+        return WithdrawResultType.OK;
     }
 
     @Override
