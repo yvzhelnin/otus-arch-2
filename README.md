@@ -2,8 +2,9 @@
 
 #Теоретическая часть. Варианты взаимодействий:
 1. Только HTTP взаимодействие
-![alt text](diagrams/http-sequence.png)
-
+![alt text](diagrams/http-sequence.png)<br>
+2. Событийное взаимодействие с использование брокера сообщений для нотификаций (уведомлений)
+![alt text](diagrams/HTTP-Kafka-notify-sequence.png)<br>
 
 #Практическая часть:
 ![alt text](diagrams/arch-shop.png)

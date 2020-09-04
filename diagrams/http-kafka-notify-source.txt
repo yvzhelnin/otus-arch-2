@@ -1,17 +1,20 @@
 sequenceDiagram
 
+  User->>+UserService: Register client: POST: /api/v1/user
+  UserService->>+BillingService: Create account: POST: /api/v1/account
+  BillingService-->>-UserService: 200 OK
+  UserService-->>-User: 200 OK, clientId
   User->>+BillingService: Put money: PUT: /api/account/{clientId}/balance
   BillingService-->>-User: 200 OK, balance
   User->>+BillingService: View balance: GET: /api/account/{clientId}/balance
   BillingService-->>-User: 200 OK, balance
   User->>+OrderService: Place order: POST: /api/v1/order
   OrderService->>+BillingService: Withdraw money (like put but with '-' for sum): PUT: /api/account/{clientId}/balance
-  BillingService->>+BillingService: Withdraw if balance if enough
+  BillingService->>+BillingService: Withdraw if balance is enough
   BillingService-->>-OrderService: 200 OK, payload with operation result
   OrderService->>+OrderService: Create order if possible
-  OrderService->>+NotificationService: Send notification: POST: /api/Notification
-  NotificationService-->>-OrderService: 200, OK
-  OrderService-->>-User: 200, OK
+  OrderService->>+NotificationService: Send notification via Kafka
   NotificationService->>+NotificationService: Process
+  OrderService-->>-User: 200, OK
   User->>+NotificationService: Get notifications: GET: /api/v1/notification/{clientId}
   NotificationService-->>-User: 200 OK, nofications list
