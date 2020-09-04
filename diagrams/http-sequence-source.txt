@@ -1,0 +1,12 @@
+  User->>+BillingService: Put money: PUT: /api/account/{clientId}/balance
+  BillingService-->>-User: 200 OK, balance
+  User->>+BillingService: View balance: GET: /api/account/{clientId}/balance
+  BillingService-->>-User: 200 OK, balance
+  User->>+OrderService: Place order: POST: /api/v1/order
+  OrderService->>+BillingService: Withdraw money (like put but with '-' for sum): PUT: /api/account/{clientId}/balance
+  BillingService->>+BillingService: Withdraw if balance if enough
+  BillingService-->>-OrderService: 200 OK, payload with operation result
+  OrderService->>+OrderService: Create order if possible
+  OrderService->>+NotificationService: Send notification: POST: /api/Notification
+  NotificationService-->>-OrderService: 200, OK
+  OrderService-->>-User: 200, OK
