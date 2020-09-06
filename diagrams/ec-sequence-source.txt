@@ -1,0 +1,16 @@
+sequenceDiagram
+
+  User->>+UserService: Register client: POST: /api/v1/user
+  UserService->>+UserService: Create client operation
+  UserService->>+BillingService: Create account via RabbitMQ
+  UserService-->>-User: 202 ACCEPTED, clientId
+  User->>+BillingService: Put money: PUT: /api/account/{clientId}/balance
+  BillingService-->>-User: 200 OK, balance
+  User->>+BillingService: View balance: GET: /api/account/{clientId}/balance
+  BillingService-->>-User: 200 OK, balance
+  User->>+OrderService: Place order: POST: /api/v1/order
+  OrderService-->>-User: 202 ACCEPTED
+  OrderService->>+BillingService: Withdraw money via RabbitMQ: PUT: /api/account/{clientId}/balance
+  BillingService->>+BillingService: Withdraw if balance if enough
+  BillingService->>+OrderService: Operation result via RabbitMQ
+  OrderService->>+NotificationService: Send notification via RabbitMQ

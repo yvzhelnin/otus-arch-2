@@ -5,6 +5,11 @@
 ![alt text](diagrams/http-sequence.png)<br>
 2. Событийное взаимодействие с использование брокера сообщений для нотификаций (уведомлений)
 ![alt text](diagrams/HTTP-Kafka-notify-sequence.png)<br>
+3. Event Collaboration<br>
+![alt text](diagrams/ec-diagram.png)<br>
+
+Вариант, который мне кажется наиболее адекватным для решения данной задачи: <br>
+№2. Событийное взаимодействие с использование брокера сообщений для нотификаций (уведомлений)
 
 #Практическая часть:
 ![alt text](diagrams/arch-shop.png)
