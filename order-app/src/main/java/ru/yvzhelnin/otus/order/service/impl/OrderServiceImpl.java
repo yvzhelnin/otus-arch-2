@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
         LOGGER.info("Assembled URL for money withdrawing: '{}'", url);
         RestTemplate restTemplate = new RestTemplate();
         final Order existingOrder = orderRepository.findByClientIdAndCost(clientId, cost);
-        if (version == existingOrder.getVersion()) {
+        if (version <= existingOrder.getVersion()) {
             return existingOrder.getId();
         }
         final Client client = clientRepository.findById(clientId)
