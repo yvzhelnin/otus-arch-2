@@ -24,6 +24,21 @@ spec:
             - name: {{ .Values.deployment.container.portName }}
               containerPort: {{ .Values.deployment.container.port }}
           env:
+            - name: spring_datasource_username
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-secrets
+                  key: spring_datasource_username
+            - name: spring_datasource_password
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-secrets
+                  key: spring_datasource_password
+            - name: spring_datasource_url
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-secrets
+                  key: spring_datasource_url
             - name: billing_app_url_withdraw
               valueFrom:
                 secretKeyRef:
