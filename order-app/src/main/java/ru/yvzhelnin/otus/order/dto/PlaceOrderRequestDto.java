@@ -11,8 +11,11 @@ public class PlaceOrderRequestDto {
 
     private final BigDecimal cost;
 
-    public PlaceOrderRequestDto(String clientId, BigDecimal cost) {
+    private final int version;
+
+    public PlaceOrderRequestDto(String clientId, BigDecimal cost, int version) {
         this.clientId = clientId;
         this.cost = cost;
+        this.version = version;
     }
 }
