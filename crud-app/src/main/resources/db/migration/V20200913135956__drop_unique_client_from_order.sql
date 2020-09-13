@@ -1,0 +1,1 @@
+ALTER TABLE common.order DROP CONSTRAINT order_client_id_key;
