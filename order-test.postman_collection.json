@@ -212,7 +212,89 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"clientId\": \"{{firstClientId}}\",\"cost\": 9000}",
+					"raw": "{\"clientId\": \"{{firstClientId}}\",\"cost\": 4000, \"version\": 0}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/order/place",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"order",
+						"place"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PLACE ORDER AGAIN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "89f94a6c-10f2-4029-8141-82046e33fc25",
+						"exec": [
+							"console.log(responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"clientId\": \"{{firstClientId}}\",\"cost\": 4000, \"version\": 0}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{baseUrl}}/api/order/place",
+					"protocol": "http",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"order",
+						"place"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PLACE ORDER ANOTHER VERSION",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eade3d32-3643-4edd-b0c1-23aaf661ba42",
+						"exec": [
+							"console.log(responseBody)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"clientId\": \"{{firstClientId}}\",\"cost\": 4000, \"version\": 1}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -430,43 +512,48 @@
 	],
 	"variable": [
 		{
-			"id": "91ed5d29-9ae8-4f5a-a1dd-d28176fcbdf2",
+			"id": "d090086b-28fb-4104-bec1-4889f332efac",
 			"key": "baseUrl",
 			"value": "arch.homework"
 		},
 		{
-			"id": "0bf62ddb-f60e-4feb-a0fe-51a97f12e326",
+			"id": "749677ab-c37a-4f68-8d0c-02d68fdd60af",
 			"key": "firstClientId",
 			"value": ""
 		},
 		{
-			"id": "243e09c6-dba3-4a64-a14f-f50f10d0f454",
+			"id": "cbe4ee72-3461-4153-93c4-4aedb03e27e8",
 			"key": "firstClientPassword",
 			"value": ""
 		},
 		{
-			"id": "b6c037b7-abf6-4d1d-9408-46092339dc63",
+			"id": "7e95332e-b0b2-4849-a14f-def603eed715",
 			"key": "firstClientUsername",
 			"value": ""
 		},
 		{
-			"id": "32264353-aec5-4f3e-a863-e94343fa131f",
+			"id": "42b2b344-2000-4795-892b-cb6bd3bbe27f",
 			"key": "clientId",
 			"value": ""
 		},
 		{
-			"id": "d9cca390-7ec0-48c7-87df-8bbe2192edda",
+			"id": "b9ad9d93-8bb2-4413-b44c-4cfd6447df1d",
 			"key": "secondClientId",
 			"value": ""
 		},
 		{
-			"id": "dfe3423e-51a2-4634-9217-2c2c3cc716e6",
+			"id": "3101c9a8-e7ea-437b-95ee-67feca929b15",
 			"key": "secondClientPassword",
 			"value": ""
 		},
 		{
-			"id": "2a8aa07f-a1c7-4118-845b-32de457021ff",
+			"id": "4cee46be-8c34-4185-82dc-61a03191ec60",
 			"key": "secondClientUsername",
+			"value": ""
+		},
+		{
+			"id": "497152b6-55bd-490d-b84e-bce25d2baf64",
+			"key": "orderId",
 			"value": ""
 		}
 	],
