@@ -11,8 +11,4 @@ public interface EquipmentService {
     EquipmentStatus changeStatus(Long inventoryNumber, EquipmentStatus newStatus);
 
     Map<String, Long> getBalance();
-
-    void bookEquipment(Map<String, Long> models, String customerPhoneNumber);
-
-    void unBookEquipment(String customerPhoneNumber);
 }
