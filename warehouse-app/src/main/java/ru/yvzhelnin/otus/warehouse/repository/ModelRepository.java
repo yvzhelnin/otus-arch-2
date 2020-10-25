@@ -8,7 +8,7 @@ import ru.yvzhelnin.otus.warehouse.model.Model;
 import java.util.List;
 
 @Repository
-public interface ModelRepository extends JpaRepository<Model, Long> {
+public interface ModelRepository extends JpaRepository<Model, String> {
 
     Model findByName(String name);
 
