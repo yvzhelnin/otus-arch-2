@@ -1,0 +1,49 @@
+replicaCount: 1
+
+deployment:
+  name: warehouse-appl-deployment
+  image:
+    repo: yvzhelnin/warehouse-appl
+    pullPolicy: Always
+  label: warehouse-java-appl
+  initContainer:
+    name: init-pg
+    image: busybox
+  container:
+    name: warehouse-pod-java
+    portName: web
+    port: 80
+  readiness:
+    initialDelaySeconds: 40
+    periodSeconds: 5
+    timeoutSeconds: 2
+  liveness:
+    initialDelaySeconds: 50
+    periodSeconds: 5
+service:
+  name: warehouse-appl-service
+  label: warehouse-appl-service-label
+  type: NodePort
+  protocol: TCP
+  portName: service-web
+  port: 8000
+
+ingress:
+  host: arch.homework
+  name: warehouse-ingress
+
+postgresql:
+  postgresqlUsername: db_user
+  postgresqlPassword: db_password
+  postgresqlDatabase: rental_service
+  service:
+    port: "5432"
+
+auth:
+  service:
+    name: auth-appl-service
+    port: 8000
+  url: /api/auth/auth
+  signin: /api/auth/signin
+  path: /api/client
+  pathType: Prefix

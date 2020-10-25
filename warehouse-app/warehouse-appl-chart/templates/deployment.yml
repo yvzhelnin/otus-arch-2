@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.label }}
+    spec:
+      initContainers:
+        - name: {{ .Values.deployment.initContainer.name }}
+          image: {{ .Values.deployment.initContainer.image }}
+          command: ["sh", "-c", {{ printf "until nslookup %s-postgresql; do echo waiting for myservice; sleep 2; done;" .Release.Name | quote }} ]
+      containers:
+        - name: {{ .Values.deployment.container.name }}
+          image: {{ .Values.deployment.image.repo }}:{{ .Chart.AppVersion }}
+          imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
+          ports:
+            - name: {{ .Values.deployment.container.portName }}
+              containerPort: {{ .Values.deployment.container.port }}
+          env:
+            - name: spring_datasource_username
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-secrets
+                  key: spring_datasource_username
+            - name: spring_datasource_password
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-secrets
+                  key: spring_datasource_password
+            - name: spring_datasource_url
+              valueFrom:
+                secretKeyRef:
+                  name: spring-datasource-secrets
+                  key: spring_datasource_url
+          livenessProbe:
+            httpGet:
+              port: {{ .Values.deployment.container.port }}
+              path: /warehouse-app/info/health
+            initialDelaySeconds: {{ .Values.deployment.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.deployment.liveness.periodSeconds }}
+            timeoutSeconds: {{ .Values.deployment.liveness.timeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              port: {{ .Values.deployment.container.port }}
+              path: /warehouse-app/info/status
+            initialDelaySeconds: {{ .Values.deployment.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.deployment.readiness.periodSeconds }}
