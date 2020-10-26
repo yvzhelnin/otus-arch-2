@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.warehouse.enums;
+package ru.yvzhelnin.otus.catalog.enums;
 
 public enum SeasonType {
 

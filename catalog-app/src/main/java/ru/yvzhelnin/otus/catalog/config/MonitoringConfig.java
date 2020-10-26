@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.warehouse.config;
+package ru.yvzhelnin.otus.catalog.config;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;

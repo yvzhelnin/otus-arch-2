@@ -1,10 +1,10 @@
-package ru.yvzhelnin.otus.warehouse.controller;
+package ru.yvzhelnin.otus.catalog.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.yvzhelnin.otus.warehouse.dto.HealthInfoDto;
-import ru.yvzhelnin.otus.warehouse.dto.VersionDto;
+import ru.yvzhelnin.otus.catalog.dto.HealthInfoDto;
+import ru.yvzhelnin.otus.catalog.dto.VersionDto;
 
 @RestController
 @RequestMapping("/info")

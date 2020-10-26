@@ -1,4 +1,6 @@
-package ru.yvzhelnin.otus.warehouse.enums;
+package ru.yvzhelnin.otus.catalog.enums;
+
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,6 +15,7 @@ public enum EquipmentCategory {
     BICYCLE(SeasonType.SUMMER),
     SCOOTER(SeasonType.SUMMER);
 
+    @Getter
     private final SeasonType seasonType;
 
     EquipmentCategory(SeasonType seasonType) {

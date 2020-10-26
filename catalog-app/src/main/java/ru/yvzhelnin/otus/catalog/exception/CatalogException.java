@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.warehouse.exception;
+package ru.yvzhelnin.otus.catalog.exception;
 
 public class CatalogException extends RuntimeException {
 

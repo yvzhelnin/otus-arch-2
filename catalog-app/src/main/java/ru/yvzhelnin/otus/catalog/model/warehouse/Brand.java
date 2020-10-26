@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.warehouse.model;
+package ru.yvzhelnin.otus.catalog.model.warehouse;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

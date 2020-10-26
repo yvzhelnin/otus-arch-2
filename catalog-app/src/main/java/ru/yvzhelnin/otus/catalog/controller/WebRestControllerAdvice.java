@@ -1,11 +1,11 @@
-package ru.yvzhelnin.otus.warehouse.controller;
+package ru.yvzhelnin.otus.catalog.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.yvzhelnin.otus.warehouse.exception.ErrorMessage;
-import ru.yvzhelnin.otus.warehouse.exception.PermissionDeniedException;
-import ru.yvzhelnin.otus.warehouse.exception.CatalogException;
+import ru.yvzhelnin.otus.catalog.exception.CatalogException;
+import ru.yvzhelnin.otus.catalog.exception.ErrorMessage;
+import ru.yvzhelnin.otus.catalog.exception.PermissionDeniedException;
 
 import javax.servlet.http.HttpServletResponse;
 

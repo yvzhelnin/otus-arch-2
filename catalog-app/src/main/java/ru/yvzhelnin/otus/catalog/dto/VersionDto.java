@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.warehouse.dto;
+package ru.yvzhelnin.otus.catalog.dto;
 
 import lombok.Getter;
 import org.springframework.data.annotation.Immutable;

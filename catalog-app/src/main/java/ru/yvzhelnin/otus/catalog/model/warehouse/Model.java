@@ -1,10 +1,9 @@
-package ru.yvzhelnin.otus.warehouse.model;
+package ru.yvzhelnin.otus.catalog.model.warehouse;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import ru.yvzhelnin.otus.warehouse.enums.EquipmentCategory;
-import ru.yvzhelnin.otus.warehouse.enums.SeasonType;
+import ru.yvzhelnin.otus.catalog.enums.EquipmentCategory;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
