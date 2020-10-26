@@ -2,7 +2,7 @@ package ru.yvzhelnin.otus.warehouse.dto.model;
 
 import lombok.Getter;
 import lombok.ToString;
-import ru.yvzhelnin.otus.warehouse.enums.SeasonType;
+import ru.yvzhelnin.otus.warehouse.enums.EquipmentCategory;
 
 @Getter
 @ToString
@@ -12,11 +12,11 @@ public class AddModelDto {
 
     private final String name;
 
-    private final SeasonType seasonType;
+    private final EquipmentCategory equipmentCategory;
 
-    public AddModelDto(long brandCode, String name, SeasonType seasonType) {
+    public AddModelDto(long brandCode, String name, EquipmentCategory equipmentCategory) {
         this.brandCode = brandCode;
         this.name = name;
-        this.seasonType = seasonType;
+        this.equipmentCategory = equipmentCategory;
     }
 }

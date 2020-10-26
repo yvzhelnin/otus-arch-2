@@ -3,6 +3,7 @@ package ru.yvzhelnin.otus.warehouse.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import ru.yvzhelnin.otus.warehouse.enums.EquipmentCategory;
 import ru.yvzhelnin.otus.warehouse.enums.SeasonType;
 
 import javax.persistence.Column;
@@ -35,9 +36,9 @@ public class Model {
     @EqualsAndHashCode.Include
     private String name;
 
-    @Column(name = "season_type")
+    @Column(name = "equipment_category")
     @Enumerated(EnumType.STRING)
-    private SeasonType seasonType;
+    private EquipmentCategory equipmentCategory;
 
     @Column(name = "is_loaded_to_catalog")
     private boolean isLoadedToCatalog;

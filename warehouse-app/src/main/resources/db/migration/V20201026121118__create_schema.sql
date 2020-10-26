@@ -11,14 +11,14 @@ CREATE TABLE IF NOT EXISTS "warehouse"."model"
     article              VARCHAR(50) PRIMARY KEY,
     brand_code           BIGINT       NOT NULL,
     name                 VARCHAR(255) NOT NULL,
-    season_type          VARCHAR(50)  NOT NULL,
+    equipment_category   VARCHAR(50)  NOT NULL,
     is_loaded_to_catalog BOOLEAN      NOT NULL DEFAULT false,
     FOREIGN KEY (brand_code) REFERENCES "warehouse"."brand" ("code")
         ON DELETE NO ACTION
         ON UPDATE NO ACTION
 );
 CREATE INDEX model_name_idx ON warehouse.model USING hash (name);
-CREATE INDEX model_season_type_idx ON warehouse.model USING hash (season_type);
+CREATE INDEX model_equipment_category_idx ON warehouse.model USING hash (equipment_category);
 CREATE INDEX model_is_loaded_to_catalog_idx ON warehouse.model USING hash (is_loaded_to_catalog);
 
 CREATE TABLE IF NOT EXISTS "warehouse"."equipment"
