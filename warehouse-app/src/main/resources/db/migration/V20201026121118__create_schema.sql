@@ -9,10 +9,11 @@ CREATE TABLE IF NOT EXISTS "warehouse"."brand"
 CREATE TABLE IF NOT EXISTS "warehouse"."model"
 (
     article              VARCHAR(50) PRIMARY KEY,
-    brand_code           BIGINT       NOT NULL,
-    name                 VARCHAR(255) NOT NULL,
-    equipment_category   VARCHAR(50)  NOT NULL,
-    is_loaded_to_catalog BOOLEAN      NOT NULL DEFAULT false,
+    brand_code           BIGINT         NOT NULL,
+    name                 VARCHAR(255)   NOT NULL,
+    book_value           NUMERIC(17, 2) NOT NULL,
+    equipment_category   VARCHAR(50)    NOT NULL,
+    is_loaded_to_catalog BOOLEAN        NOT NULL DEFAULT false,
     FOREIGN KEY (brand_code) REFERENCES "warehouse"."brand" ("code")
         ON DELETE NO ACTION
         ON UPDATE NO ACTION

@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -35,6 +36,9 @@ public class Model {
     @Column(name = "name")
     @EqualsAndHashCode.Include
     private String name;
+
+    @Column(name = "book_value")
+    private BigDecimal bookValue;
 
     @Column(name = "equipment_category")
     @Enumerated(EnumType.STRING)
