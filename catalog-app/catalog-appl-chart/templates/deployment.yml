@@ -12,10 +12,6 @@ spec:
       labels:
         app: {{ .Values.deployment.label }}
     spec:
-      initContainers:
-        - name: {{ .Values.deployment.initContainer.name }}
-          image: {{ .Values.deployment.initContainer.image }}
-          command: ["sh", "-c", {{ printf "until nslookup %s-postgresql; do echo waiting for myservice; sleep 2; done;" .Release.Name | quote }} ]
       containers:
         - name: {{ .Values.deployment.container.name }}
           image: {{ .Values.deployment.image.repo }}:{{ .Chart.AppVersion }}
@@ -42,13 +38,13 @@ spec:
           livenessProbe:
             httpGet:
               port: {{ .Values.deployment.container.port }}
-              path: /warehouse-app/info/health
+              path: /catalog-app/info/health
             initialDelaySeconds: {{ .Values.deployment.liveness.initialDelaySeconds }}
             periodSeconds: {{ .Values.deployment.liveness.periodSeconds }}
             timeoutSeconds: {{ .Values.deployment.liveness.timeoutSeconds }}
           readinessProbe:
             httpGet:
               port: {{ .Values.deployment.container.port }}
-              path: /warehouse-app/info/status
+              path: /catalog-app/info/status
             initialDelaySeconds: {{ .Values.deployment.readiness.initialDelaySeconds }}
             periodSeconds: {{ .Values.deployment.readiness.periodSeconds }}
