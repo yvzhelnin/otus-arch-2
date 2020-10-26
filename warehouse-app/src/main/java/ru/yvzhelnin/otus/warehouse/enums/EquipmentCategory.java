@@ -6,9 +6,10 @@ import java.util.stream.Collectors;
 
 public enum EquipmentCategory {
 
-    SNOWBOARD(SeasonType.WINTER),
     CROSS_COUNTRY_SKIING(SeasonType.WINTER),
+    CROSS_COUNTRY_SKIING_BOOTS(SeasonType.WINTER),
     MOUNTAIN_SKIING(SeasonType.WINTER),
+    MOUNTAIN_SKIING_BOOTS(SeasonType.WINTER),
     BICYCLE(SeasonType.SUMMER),
     SCOOTER(SeasonType.SUMMER);
 
