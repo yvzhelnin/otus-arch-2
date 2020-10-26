@@ -46,4 +46,13 @@ auth:
   url: /api/auth/auth
   signin: /api/auth/signin
   path: /api/client
+
+  catalogServiceName: catalog-appl-service
+  catalogServicePort: 8000
+  catalogServicePath: /api/catalog
+
+  orderServiceName: order-appl-service
+  orderServicePort: 8000
+  orderServicePath: /api/order
+
   pathType: Prefix

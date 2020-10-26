@@ -11,8 +11,18 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-        - backend:
-            serviceName: {{ .Values.service.name }}
-            servicePort: {{ .Values.service.port }}
-          path: {{ .Values.auth.path }}
-          pathType: {{ .Values.auth.pathType }}
+          - backend:
+              serviceName: {{ .Values.service.name }}
+              servicePort: {{ .Values.service.port }}
+            path: {{ .Values.auth.path }}
+            pathType: {{ .Values.auth.pathType }}
+          - backend:
+              serviceName: {{ .Values.auth.catalogServiceName }}
+              servicePort: {{ .Values.auth.catalogServicePort }}
+            path: {{ .Values.auth.catalogServicePath }}
+            pathType: {{ .Values.auth.pathType }}
+          - backend:
+              serviceName: {{ .Values.auth.orderServiceName }}
+              servicePort: {{ .Values.auth.orderServicePort }}
+            path: {{ .Values.auth.orderServicePath }}
+            pathType: {{ .Values.auth.pathType }}
