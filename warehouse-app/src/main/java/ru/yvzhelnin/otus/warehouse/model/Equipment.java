@@ -30,7 +30,7 @@ public class Equipment {
     @JoinColumn(name = "model_article", referencedColumnName = "article")
     private Model model;
 
-    @Column(name = "product_status")
+    @Column(name = "equipment_status")
     @Enumerated(EnumType.STRING)
     private EquipmentStatus equipmentStatus;
 }

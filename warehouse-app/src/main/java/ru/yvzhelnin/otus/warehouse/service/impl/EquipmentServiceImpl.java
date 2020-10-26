@@ -71,6 +71,12 @@ public class EquipmentServiceImpl implements EquipmentService {
                     equipmentRepository.save(equipment);
                 }
                 return equipment.getEquipmentStatus();
+            case AVAILABLE:
+                if (currentStatus == EquipmentStatus.AT_RETURNING) {
+                    equipment.setEquipmentStatus(EquipmentStatus.AVAILABLE);
+                    equipmentRepository.save(equipment);
+                }
+                return equipment.getEquipmentStatus();
             default:
                 throw new WarehouseException("It's impossible to change status from " + currentStatus + " to " + newStatus);
         }
