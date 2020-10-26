@@ -65,3 +65,19 @@ VALUES ('ESC500W', 5, 'El-Sport T8 500W 48V / 10Ah', 15000, 'SCOOTER');
 INSERT INTO warehouse.model(article, brand_code, name, book_value, equipment_category)
 VALUES ('EST9600W', 5, 'El-Sport T9 600W', 20000, 'SCOOTER');
 
+DO
+$$
+    DECLARE
+        cur_model RECORD;
+    BEGIN
+        FOR cur_model IN SELECT article FROM warehouse.model
+            LOOP
+                current_article := cur.article;
+
+                FOR i IN 1..10 LOOP
+                    EXECUTE 'INSERT INTO warehouse.equipment (model_article) ' ||
+                            'VALUES (''' || current_article || ''')';
+                END LOOP;
+            END LOOP;
+    END
+$$;
