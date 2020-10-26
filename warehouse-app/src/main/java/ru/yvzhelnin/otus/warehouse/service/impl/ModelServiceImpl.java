@@ -41,6 +41,7 @@ public class ModelServiceImpl implements ModelService {
         model.setArticle(UUID.randomUUID().toString());
         model.setBrand(brand);
         model.setName(addModelDto.getName());
+        model.setSeasonType(addModelDto.getSeasonType());
 
         return modelRepository.save(model).getArticle();
     }

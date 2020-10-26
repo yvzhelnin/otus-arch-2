@@ -3,9 +3,12 @@ package ru.yvzhelnin.otus.warehouse.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import ru.yvzhelnin.otus.warehouse.enums.SeasonType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -31,6 +34,10 @@ public class Model {
     @Column(name = "name")
     @EqualsAndHashCode.Include
     private String name;
+
+    @Column(name = "season_type")
+    @Enumerated(EnumType.STRING)
+    private SeasonType seasonType;
 
     @Column(name = "is_loaded_to_catalog")
     private boolean isLoadedToCatalog;

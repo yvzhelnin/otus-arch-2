@@ -11,12 +11,14 @@ CREATE TABLE IF NOT EXISTS "warehouse"."model"
     article              VARCHAR(50) PRIMARY KEY,
     brand_code           BIGINT       NOT NULL,
     name                 VARCHAR(255) NOT NULL,
+    season_type          VARCHAR(50)  NOT NULL,
     is_loaded_to_catalog BOOLEAN      NOT NULL DEFAULT false,
     FOREIGN KEY (brand_code) REFERENCES "warehouse"."brand" ("code")
         ON DELETE NO ACTION
         ON UPDATE NO ACTION
 );
 CREATE INDEX model_name_idx ON warehouse.model USING hash (name);
+CREATE INDEX model_season_type_idx ON warehouse.model USING hash (season_type);
 CREATE INDEX model_is_loaded_to_catalog_idx ON warehouse.model USING hash (is_loaded_to_catalog);
 
 CREATE TABLE IF NOT EXISTS "warehouse"."equipment"
@@ -32,9 +34,9 @@ CREATE INDEX equipment_status_idx ON warehouse.equipment USING hash (equipment_s
 
 CREATE TABLE IF NOT EXISTS "warehouse"."booking_log"
 (
-    id BIGSERIAL PRIMARY KEY,
-    customer_phone_number VARCHAR(30) NOT NULL ,
-    equip_inventory_number BIGINT NOT NULL,
+    id                     BIGSERIAL PRIMARY KEY,
+    customer_phone_number  VARCHAR(30) NOT NULL,
+    equip_inventory_number BIGINT      NOT NULL,
     FOREIGN KEY (equip_inventory_number) REFERENCES "warehouse"."equipment" ("inventory_number")
         ON DELETE NO ACTION
         ON UPDATE NO ACTION
