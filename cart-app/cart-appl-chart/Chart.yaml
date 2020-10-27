@@ -1,0 +1,7 @@
+apiVersion: v2
+name: cart-appl-chart
+description: A Helm chart for Cart Application
+
+type: application
+version: 0.1.0
+appVersion: v3.0
