@@ -5,3 +5,10 @@ description: A Helm chart for Cart Application
 type: application
 version: 0.1.0
 appVersion: v3.0
+
+dependencies:
+  - name: memcached
+    version: 4.x.x
+    repository: https://charts.bitnami.com/bitnami
+    tags:
+      - cart-memcached

@@ -12,6 +12,10 @@ spec:
       labels:
         app: {{ .Values.deployment.label }}
     spec:
+      initContainers:
+        - name: {{ .Values.deployment.initContainer.name }}
+          image: {{ .Values.deployment.initContainer.image }}
+          command: ["sh", "-c", {{ printf "until nslookup %s-memcached; do echo waiting for memcached; sleep 2; done;" .Release.Name | quote }} ]
       containers:
         - name: {{ .Values.deployment.container.name }}
           image: {{ .Values.deployment.image.repo }}:{{ .Chart.AppVersion }}
@@ -20,21 +24,16 @@ spec:
             - name: {{ .Values.deployment.container.portName }}
               containerPort: {{ .Values.deployment.container.port }}
           env:
-            - name: spring_datasource_username
+            - name: cart_cache_host
               valueFrom:
                 secretKeyRef:
-                  name: spring-datasource-secrets
-                  key: spring_datasource_username
-            - name: spring_datasource_password
+                  name: cart-memcached-secrets
+                  key: cart_cache_host
+            - name: cart_cache_port
               valueFrom:
                 secretKeyRef:
-                  name: spring-datasource-secrets
-                  key: spring_datasource_password
-            - name: spring_datasource_url
-              valueFrom:
-                secretKeyRef:
-                  name: spring-datasource-secrets
-                  key: spring_datasource_url
+                  name: cart-memcached-secrets
+                  key: cart_cache_port
           livenessProbe:
             httpGet:
               port: {{ .Values.deployment.container.port }}
