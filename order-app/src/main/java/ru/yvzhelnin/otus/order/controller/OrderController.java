@@ -25,7 +25,7 @@ public class OrderController {
 
     @PostMapping("/place")
     public String placeOrder(@RequestHeader(OrderServiceImpl.CLIENT_ID_HEADER) String clientIdHeaderValue,
-                           @RequestBody PlaceOrderRequestDto requestDto) throws PermissionDeniedException, ClientNotFoundException {
+                             @RequestBody PlaceOrderRequestDto requestDto) throws PermissionDeniedException, ClientNotFoundException {
         if (!Objects.equals(clientIdHeaderValue, requestDto.getClientId())) {
             throw new PermissionDeniedException("Невозможно создать заказ для другого пользователя");
         }
