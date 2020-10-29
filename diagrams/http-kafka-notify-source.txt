@@ -1,6 +1,6 @@
 sequenceDiagram
 
-  User->>+UserService: Register client: POST: /api/v1/user
+  User->>+UserService: Register customerData: POST: /api/v1/user
   UserService->>+BillingService: Create account: POST: /api/v1/account
   BillingService-->>-UserService: 200 OK
   UserService-->>-User: 200 OK, clientId

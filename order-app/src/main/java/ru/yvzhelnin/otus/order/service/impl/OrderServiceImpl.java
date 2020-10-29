@@ -9,10 +9,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import ru.yvzhelnin.otus.order.dto.notification.NotificationType;
+import ru.yvzhelnin.otus.order.enums.NotificationType;
 import ru.yvzhelnin.otus.order.enums.WithdrawResultType;
 import ru.yvzhelnin.otus.order.exception.ClientNotFoundException;
-import ru.yvzhelnin.otus.order.model.Client;
+import ru.yvzhelnin.otus.order.model.CustomerData;
 import ru.yvzhelnin.otus.order.model.Order;
 import ru.yvzhelnin.otus.order.repository.ClientRepository;
 import ru.yvzhelnin.otus.order.repository.OrderRepository;
@@ -59,9 +59,9 @@ public class OrderServiceImpl implements OrderService {
         if (existingOrder != null && version <= existingOrder.getVersion()) {
             return existingOrder.getId();
         }
-        final Client client = clientRepository.findById(clientId)
+        final CustomerData customerData = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Клиент с идентификатором " + clientId + " не найден"));
-        final Order newOrder = new Order(UUID.randomUUID().toString(), client, cost, version);
+        final Order newOrder = new Order(UUID.randomUUID().toString(), customerData, cost, version);
         HttpHeaders headers = new HttpHeaders();
         headers.set(CLIENT_ID_HEADER, clientId);
         Map<String, String> parameters = new HashMap<>();

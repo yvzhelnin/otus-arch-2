@@ -31,10 +31,7 @@ service:
   portName: service-web
   port: 8000
 
-kafka:
-  port: "9092"
-  clientId: kafka-client
-  consumerGroup: notification-group
-  notificationTopicName: notification-topic
-  replicas: 1
-
+rabbitmq:
+  port: 5672
+  deliveryQueue: delivery_messages
+  notificationQueue: notification_messages

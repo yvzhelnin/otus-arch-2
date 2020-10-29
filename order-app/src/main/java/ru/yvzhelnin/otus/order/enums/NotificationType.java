@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.order.dto.notification;
+package ru.yvzhelnin.otus.order.enums;
 
 public enum  NotificationType {
 

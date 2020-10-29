@@ -11,9 +11,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,20 +23,26 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(schema = "common", name = "order")
+@Table(schema = "order", name = "order")
 public class Order {
 
     @Id
     @EqualsAndHashCode.Include
     private String id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
-    private Client client;
+    @Column(name = "client_id")
+    private String clientId;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_data_id", referencedColumnName = "id")
+    private CustomerData customerData;
 
     @Column(name = "cost")
     private BigDecimal cost;
 
     @Column
     private int version;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    private Set<OrderEquipment> equipment;
 }

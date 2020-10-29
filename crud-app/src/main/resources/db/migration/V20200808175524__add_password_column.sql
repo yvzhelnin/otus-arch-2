@@ -1,1 +1,1 @@
-ALTER TABLE common.client ADD COLUMN password varchar;
+ALTER TABLE common.customerData ADD COLUMN password varchar;

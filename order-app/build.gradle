@@ -2,7 +2,6 @@ buildscript {
     ext {
         hibernateVersion = '5.4.18.Final'
         springBootVersion = '2.1.5.RELEASE'
-        kafkaVersion = '2.2.7.RELEASE'
     }
 
     repositories {
@@ -38,7 +37,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-jdbc"
     implementation "org.springframework.boot:spring-boot-starter-actuator"
-    implementation "org.springframework.kafka:spring-kafka:$kafkaVersion"
+    implementation "org.springframework.boot:spring-boot-starter-amqp"
     implementation "io.micrometer:micrometer-registry-prometheus"
     implementation "org.hibernate:hibernate-core:$hibernateVersion"
     implementation "org.hibernate:hibernate-entitymanager:$hibernateVersion"

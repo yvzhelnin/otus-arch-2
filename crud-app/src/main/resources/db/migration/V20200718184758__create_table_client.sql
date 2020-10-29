@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "common"."client"
+CREATE TABLE IF NOT EXISTS "common"."customerData"
 (
     id         VARCHAR PRIMARY KEY,
     username   VARCHAR NOT NULL,

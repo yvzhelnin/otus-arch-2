@@ -1,6 +1,6 @@
 package ru.yvzhelnin.otus.order.service;
 
-import ru.yvzhelnin.otus.order.dto.notification.NotificationType;
+import ru.yvzhelnin.otus.order.enums.NotificationType;
 
 import java.math.BigDecimal;
 

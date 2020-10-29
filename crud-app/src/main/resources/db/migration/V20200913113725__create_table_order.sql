@@ -8,5 +8,5 @@ CREATE TABLE IF NOT EXISTS "common"."order"
 ALTER TABLE "common"."order"
     ADD CONSTRAINT "client_id_fkey"
         FOREIGN KEY ("client_id")
-            REFERENCES "common"."client" ("id") MATCH SIMPLE
+            REFERENCES "common"."customerData" ("id") MATCH SIMPLE
             ON DELETE CASCADE;

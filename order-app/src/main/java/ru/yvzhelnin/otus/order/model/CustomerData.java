@@ -9,26 +9,18 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(schema = "common", name = "client")
-public class Client {
+@Table(schema = "order", name = "customer_data")
+public class CustomerData {
 
     @Id
     @EqualsAndHashCode.Include
     private String id;
-
-    @NotNull
-    @EqualsAndHashCode.Include
-    @Column(name = "username")
-    private String username;
-
-    @NotNull
-    @Column(name = "password")
-    private String password;
 
     @NotNull
     @Column(name = "first_name")
@@ -41,6 +33,15 @@ public class Client {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "address")
+    private String address;
+
     @Column(name = "phone")
     private String phone;
+
+    @Column(name = "deliver_from")
+    private LocalDateTime deliverFrom;
+
+    @Column(name = "deliver_till")
+    private LocalDateTime deliverTill;
 }

@@ -1,7 +1,7 @@
 sequenceDiagram
 
-  User->>+UserService: Register client: POST: /api/v1/user
-  UserService->>+UserService: Create client operation
+  User->>+UserService: Register customerData: POST: /api/v1/user
+  UserService->>+UserService: Create customerData operation
   UserService->>+BillingService: Create account via RabbitMQ
   UserService-->>-User: 202 ACCEPTED, clientId
   User->>+BillingService: Put money: PUT: /api/account/{clientId}/balance

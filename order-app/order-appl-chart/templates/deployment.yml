@@ -44,26 +44,26 @@ spec:
                 secretKeyRef:
                   name: order-app-secrets
                   key: billing_app_url_withdraw
-            - name: spring_kafka_bootstrap_server
+            - name: spring_rabbitmq_server
               valueFrom:
                 secretKeyRef:
-                  name: kafka-secrets
-                  key: spring_kafka_bootstrap_server
-            - name: spring_kafka_producer_client_id
+                  name: rabbitmq-secrets
+                  key: spring_rabbitmq_server
+            - name: spring_rabbitmq_port
               valueFrom:
                 secretKeyRef:
-                  name: kafka-secrets
-                  key: spring_kafka_producer_client_id
-            - name: spring_kafka_consumer_group_id
+                  name: rabbitmq-secrets
+                  key: spring_rabbitmq_port
+            - name: order_delivery_queue
               valueFrom:
                 secretKeyRef:
-                  name: kafka-secrets
-                  key: spring_kafka_consumer_group_id
-            - name: kafka_notification_topic_name
+                  name: rabbitmq-secrets
+                  key: order_delivery_queue
+            - name: order_notification_queue
               valueFrom:
                 secretKeyRef:
-                  name: kafka-secrets
-                  key: kafka_notification_topic_name
+                  name: rabbitmq-secrets
+                  key: order_notification_queue
           livenessProbe:
             httpGet:
               port: {{ .Values.deployment.container.port }}
