@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.yvzhelnin.otus.order.dto.PlaceOrderRequestDto;
 import ru.yvzhelnin.otus.order.enums.NotificationType;
+import ru.yvzhelnin.otus.order.enums.OrderStatus;
 import ru.yvzhelnin.otus.order.enums.WithdrawResultType;
-import ru.yvzhelnin.otus.order.exception.ClientNotFoundException;
 import ru.yvzhelnin.otus.order.model.CustomerData;
 import ru.yvzhelnin.otus.order.model.Order;
-import ru.yvzhelnin.otus.order.repository.ClientRepository;
+import ru.yvzhelnin.otus.order.repository.CustomerDataRepository;
 import ru.yvzhelnin.otus.order.repository.OrderRepository;
 import ru.yvzhelnin.otus.order.service.DeliveryService;
 import ru.yvzhelnin.otus.order.service.NotificationService;
@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
 
-    private final ClientRepository clientRepository;
+    private final CustomerDataRepository customerDataRepository;
 
     private final NotificationService notificationService;
 
@@ -52,11 +52,11 @@ public class OrderServiceImpl implements OrderService {
     private final RestTemplate restTemplate;
 
     public OrderServiceImpl(OrderRepository orderRepository,
-                            ClientRepository clientRepository,
+                            CustomerDataRepository customerDataRepository,
                             NotificationService notificationService,
                             DeliveryService deliveryService, WarehouseService warehouseService) {
         this.orderRepository = orderRepository;
-        this.clientRepository = clientRepository;
+        this.customerDataRepository = customerDataRepository;
         this.notificationService = notificationService;
         this.deliveryService = deliveryService;
         this.warehouseService = warehouseService;
@@ -64,19 +64,31 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String placeOrder(PlaceOrderRequestDto orderRequestDto, String clientId) throws ClientNotFoundException, JsonProcessingException {
-        final CustomerData customerData = clientRepository.findById(clientId)
-                .orElseThrow(() -> new ClientNotFoundException("Клиент с идентификатором " + clientId + " не найден"));
-
+    public String placeOrder(PlaceOrderRequestDto orderRequestDto, String clientId) throws JsonProcessingException {
         warehouseService.bookEquipment(orderRequestDto.getPositions(), orderRequestDto.getPhoneNumber(), clientId);
 
         final Order existingOrder = orderRepository.findByClientIdAndCost(clientId, orderRequestDto.getCost());
-        if (existingOrder != null && orderRequestDto.getVersion() <= existingOrder.getVersion()) {
-            return existingOrder.getId();
+        if (existingOrder != null) {
+            if (orderRequestDto.getVersion() <= existingOrder.getVersion()) {
+                return existingOrder.getId();
+            }
+            orderRepository.delete(existingOrder);
         }
+        CustomerData customerData = new CustomerData();
+        customerData.setId(UUID.randomUUID().toString());
+        customerData.setFirstName(orderRequestDto.getFirstName());
+        customerData.setLastName(orderRequestDto.getLastName());
+        customerData.setEmail(orderRequestDto.getEmail());
+        customerData.setAddress(orderRequestDto.getAddress());
+        customerData.setPhone(orderRequestDto.getPhoneNumber());
+        customerData.setDeliverFrom(orderRequestDto.getDeliverFrom());
+        customerData.setDeliverTill(orderRequestDto.getDeliverTill());
+        customerData = customerDataRepository.save(customerData);
+
         final Order newOrder = new Order(UUID.randomUUID().toString(),
                 clientId,
                 customerData,
+                OrderStatus.NEW,
                 orderRequestDto.getCost(),
                 orderRequestDto.getVersion());
 

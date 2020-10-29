@@ -17,6 +17,8 @@ public class PlaceOrderRequestDto {
 
     private final String phoneNumber;
 
+    private final String email;
+
     private final String address;
 
     private final LocalDateTime deliverFrom;
@@ -33,6 +35,7 @@ public class PlaceOrderRequestDto {
                                 String firstName,
                                 String lastName,
                                 String phoneNumber,
+                                String email,
                                 String address,
                                 LocalDateTime deliverFrom,
                                 LocalDateTime deliverTill,
@@ -43,6 +46,7 @@ public class PlaceOrderRequestDto {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
+        this.email = email;
         this.address = address;
         this.deliverFrom = deliverFrom;
         this.deliverTill = deliverTill;

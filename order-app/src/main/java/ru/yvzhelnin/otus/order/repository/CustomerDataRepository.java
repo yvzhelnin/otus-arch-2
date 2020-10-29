@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.yvzhelnin.otus.order.model.CustomerData;
 
 @Repository
-public interface ClientRepository extends CrudRepository<CustomerData, String> {
+public interface CustomerDataRepository extends CrudRepository<CustomerData, String> {
 }
