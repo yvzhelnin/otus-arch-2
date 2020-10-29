@@ -14,6 +14,7 @@ import ru.yvzhelnin.otus.order.dto.PlaceOrderRequestDto;
 import ru.yvzhelnin.otus.order.enums.NotificationType;
 import ru.yvzhelnin.otus.order.enums.OrderStatus;
 import ru.yvzhelnin.otus.order.enums.WithdrawResultType;
+import ru.yvzhelnin.otus.order.exception.OrderServiceException;
 import ru.yvzhelnin.otus.order.model.CustomerData;
 import ru.yvzhelnin.otus.order.model.Order;
 import ru.yvzhelnin.otus.order.repository.CustomerDataRepository;
@@ -23,7 +24,9 @@ import ru.yvzhelnin.otus.order.service.NotificationService;
 import ru.yvzhelnin.otus.order.service.OrderService;
 import ru.yvzhelnin.otus.order.service.WarehouseService;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -107,6 +110,18 @@ public class OrderServiceImpl implements OrderService {
 
             return "Недостаточно средств на счёте";
         }
+    }
+
+    @Override
+    public OrderStatus changeStatus(OrderStatus newStatus, String clientId) throws OrderServiceException {
+        List<Order> clientOrders = orderRepository.findAllByClientId(clientId);
+        Order lastOrder = clientOrders.stream()
+                .max(Comparator.comparingInt(Order::getVersion))
+                .orElseThrow(() -> new OrderServiceException("Нет заказов для клиента " + clientId));
+        lastOrder.setStatus(newStatus);
+        orderRepository.save(lastOrder);
+
+        return lastOrder.getStatus();
     }
 
     private String payForOrder(String clientId, PlaceOrderRequestDto orderRequestDto) {

@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yvzhelnin.otus.order.dto.PlaceOrderRequestDto;
+import ru.yvzhelnin.otus.order.enums.OrderStatus;
+import ru.yvzhelnin.otus.order.exception.OrderServiceException;
 import ru.yvzhelnin.otus.order.exception.PermissionDeniedException;
 import ru.yvzhelnin.otus.order.service.OrderService;
 import ru.yvzhelnin.otus.order.service.impl.OrderServiceImpl;
@@ -30,5 +33,11 @@ public class OrderController {
             throw new PermissionDeniedException("Невозможно создать заказ для другого пользователя");
         }
         return orderService.placeOrder(requestDto, clientIdHeaderValue);
+    }
+
+    @PostMapping("/status")
+    public OrderStatus changeStatus(@RequestParam("newStatus") OrderStatus newStatus,
+                                    @RequestParam("clientId") String clientId) throws OrderServiceException {
+        return orderService.changeStatus(newStatus, clientId);
     }
 }
