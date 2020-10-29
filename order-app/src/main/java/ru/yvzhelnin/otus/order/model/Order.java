@@ -45,4 +45,12 @@ public class Order {
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     private Set<OrderEquipment> equipment;
+
+    public Order(String id, String clientId, CustomerData customerData, BigDecimal cost, int version) {
+        this.id = id;
+        this.clientId = clientId;
+        this.customerData = customerData;
+        this.cost = cost;
+        this.version = version;
+    }
 }

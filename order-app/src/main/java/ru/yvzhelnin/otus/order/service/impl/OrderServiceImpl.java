@@ -1,5 +1,6 @@
 package ru.yvzhelnin.otus.order.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.yvzhelnin.otus.order.dto.PlaceOrderRequestDto;
 import ru.yvzhelnin.otus.order.enums.NotificationType;
 import ru.yvzhelnin.otus.order.enums.WithdrawResultType;
 import ru.yvzhelnin.otus.order.exception.ClientNotFoundException;
@@ -16,10 +18,11 @@ import ru.yvzhelnin.otus.order.model.CustomerData;
 import ru.yvzhelnin.otus.order.model.Order;
 import ru.yvzhelnin.otus.order.repository.ClientRepository;
 import ru.yvzhelnin.otus.order.repository.OrderRepository;
+import ru.yvzhelnin.otus.order.service.DeliveryService;
 import ru.yvzhelnin.otus.order.service.NotificationService;
 import ru.yvzhelnin.otus.order.service.OrderService;
+import ru.yvzhelnin.otus.order.service.WarehouseService;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -42,45 +45,68 @@ public class OrderServiceImpl implements OrderService {
 
     private final NotificationService notificationService;
 
+    private final DeliveryService deliveryService;
+
+    private final WarehouseService warehouseService;
+
+    private final RestTemplate restTemplate;
+
     public OrderServiceImpl(OrderRepository orderRepository,
                             ClientRepository clientRepository,
-                            NotificationService notificationService) {
+                            NotificationService notificationService,
+                            DeliveryService deliveryService, WarehouseService warehouseService) {
         this.orderRepository = orderRepository;
         this.clientRepository = clientRepository;
         this.notificationService = notificationService;
+        this.deliveryService = deliveryService;
+        this.warehouseService = warehouseService;
+        this.restTemplate = new RestTemplate();
     }
 
     @Override
-    public String placeOrder(String clientId, BigDecimal cost, int version) throws ClientNotFoundException {
-        final String url = billingAppUrl + "/" + clientId + "?sum=" + cost;
-        LOGGER.info("Assembled URL for money withdrawing: '{}'", url);
-        RestTemplate restTemplate = new RestTemplate();
-        final Order existingOrder = orderRepository.findByClientIdAndCost(clientId, cost);
-        if (existingOrder != null && version <= existingOrder.getVersion()) {
-            return existingOrder.getId();
-        }
+    public String placeOrder(PlaceOrderRequestDto orderRequestDto, String clientId) throws ClientNotFoundException, JsonProcessingException {
         final CustomerData customerData = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Клиент с идентификатором " + clientId + " не найден"));
-        final Order newOrder = new Order(UUID.randomUUID().toString(), customerData, cost, version);
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(CLIENT_ID_HEADER, clientId);
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("sum", cost.toString());
-        HttpEntity requestEntity = new HttpEntity(headers);
-        ResponseEntity response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class, parameters);
 
-        String result = response.getHeaders().getFirst(WITHDRAW_RESULT_HEADER);
-        LOGGER.info("Result: {}, sending the notification", result);
+        warehouseService.bookEquipment(orderRequestDto.getPositions(), orderRequestDto.getPhoneNumber(), clientId);
 
-        if (Objects.equals(result, WithdrawResultType.OK.name())) {
+        final Order existingOrder = orderRepository.findByClientIdAndCost(clientId, orderRequestDto.getCost());
+        if (existingOrder != null && orderRequestDto.getVersion() <= existingOrder.getVersion()) {
+            return existingOrder.getId();
+        }
+        final Order newOrder = new Order(UUID.randomUUID().toString(),
+                clientId,
+                customerData,
+                orderRequestDto.getCost(),
+                orderRequestDto.getVersion());
+
+        String withdrawalResult = payForOrder(clientId, orderRequestDto);
+        LOGGER.info("Withdrawal attempt result: {}, sending the notification", withdrawalResult);
+
+        if (Objects.equals(withdrawalResult, WithdrawResultType.OK.name())) {
             final String orderId = orderRepository.save(newOrder).getId();
-            notificationService.sendNotification(NotificationType.SUCCESS, clientId, cost);
+            notificationService.sendNotification(NotificationType.SUCCESS, clientId, orderRequestDto.getCost());
+            deliveryService.sendDeliveryRequest(newOrder);
 
             return orderId;
         } else {
-            notificationService.sendNotification(NotificationType.FAIL, clientId, cost);
+            warehouseService.unBookEquipment(orderRequestDto.getPhoneNumber());
+            notificationService.sendNotification(NotificationType.FAIL, clientId, orderRequestDto.getCost());
 
             return "Недостаточно средств на счёте";
         }
+    }
+
+    private String payForOrder(String clientId, PlaceOrderRequestDto orderRequestDto) {
+        final String url = billingAppUrl + "/" + clientId + "?sum=" + orderRequestDto.getCost();
+        LOGGER.info("Assembled URL for money withdrawing: '{}'", url);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(CLIENT_ID_HEADER, clientId);
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("sum", orderRequestDto.getCost().toString());
+        HttpEntity requestEntity = new HttpEntity(headers);
+        ResponseEntity response = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class, parameters);
+
+        return response.getHeaders().getFirst(WITHDRAW_RESULT_HEADER);
     }
 }

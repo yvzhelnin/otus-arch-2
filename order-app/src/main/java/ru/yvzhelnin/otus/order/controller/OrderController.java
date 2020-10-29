@@ -29,6 +29,6 @@ public class OrderController {
         if (!Objects.equals(clientIdHeaderValue, requestDto.getClientId())) {
             throw new PermissionDeniedException("Невозможно создать заказ для другого пользователя");
         }
-        return orderService.placeOrder(requestDto.getClientId(), requestDto.getCost(), requestDto.getVersion());
+        return orderService.placeOrder(requestDto, clientIdHeaderValue);
     }
 }
