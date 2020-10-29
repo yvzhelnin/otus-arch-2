@@ -47,5 +47,7 @@ public class AdminServiceImpl implements AdminService {
                 .collect(Collectors.toList());
 
         positionRepository.saveAll(positions);
+        models.forEach(model -> model.setLoadedToCatalog(true));
+        modelRepository.saveAll(models);
     }
 }
