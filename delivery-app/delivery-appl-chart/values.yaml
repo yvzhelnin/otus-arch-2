@@ -27,4 +27,3 @@ service:
 
 rabbitmq:
   port: 5672
-  deliveryQueue: delivery_messages

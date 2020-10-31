@@ -1,4 +1,4 @@
-package ru.yvzhelnin.otus.order.dto;
+package ru.yvzhelnin.otus.delivery.dto;
 
 import lombok.Getter;
 import lombok.Setter;
