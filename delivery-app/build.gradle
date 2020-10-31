@@ -1,0 +1,61 @@
+buildscript {
+    ext {
+        hibernateVersion = '5.4.18.Final'
+        springBootVersion = '2.1.5.RELEASE'
+    }
+
+    repositories {
+        gradlePluginPortal()
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'idea'
+
+group 'ru.yvzhelnin.otus'
+version '0.1'
+
+sourceCompatibility = JavaVersion.VERSION_11
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor "org.projectlombok:lombok"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    compileOnly "org.projectlombok:lombok"
+
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-jdbc"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-amqp"
+    implementation "io.micrometer:micrometer-registry-prometheus"
+    implementation "org.hibernate:hibernate-core:$hibernateVersion"
+    implementation "org.hibernate:hibernate-entitymanager:$hibernateVersion"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+
+    runtimeOnly "org.postgresql:postgresql"
+}
+
+idea {
+    module {
+        sourceDirs += file("build/generated/src/main/java")
+        inheritOutputDirs = false
+        outputDir = compileJava.destinationDir
+        testOutputDir = compileTestJava.destinationDir
+    }
+    sourceSets.main.java.srcDirs += "${buildDir}/generated"
+}
+
+compileJava {
+    options.annotationProcessorGeneratedSourcesDirectory = file("${buildDir}/generated")
+}

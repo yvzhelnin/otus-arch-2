@@ -13,7 +13,7 @@ deployment:
     pullPolicy: Always
   label: order-java-appl
   initContainer:
-    name: init-kafka
+    name: init-rabbitmq
     image: busybox
   container:
     name: order-pod-java

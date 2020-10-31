@@ -54,6 +54,11 @@ spec:
                 secretKeyRef:
                   name: order-app-secrets
                   key: warehouse_app_url_unbook
+            - name: cart_app_url_clear
+              valueFrom:
+                secretKeyRef:
+                  name: order-app-secrets
+                  key: cart_app_url_clear
             - name: spring_rabbitmq_server
               valueFrom:
                 secretKeyRef:
