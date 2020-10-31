@@ -4,6 +4,7 @@ app:
   withdrawUrl: http://billing-appl-service.crud-app.svc.cluster.local:8000/api/account/balance
   bookUrl: http://warehouse-appl-service.crud-app.svc.cluster.local:8000/api/booking/book
   unbookUrl: http://warehouse-appl-service.crud-app.svc.cluster.local:8000/api/booking/unbook
+  clearCartUrl: http://cart-appl-service.crud-app.svc.cluster.local:8000/api/cart
 
 deployment:
   name: order-appl-deployment

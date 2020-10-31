@@ -2,6 +2,7 @@ package ru.yvzhelnin.otus.cart.controller;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,18 +22,18 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public Collection<CartItemDto> getCart() throws IOException {
         return cartService.get();
     }
 
-    @PostMapping("/")
+    @PostMapping
     public void saveOrUpdateCart(Collection<CartItemDto> cartItemDtos) throws IOException {
         cartService.saveOrUpdate(cartItemDtos);
     }
 
-    @DeleteMapping("/")
-    public void deleteCart() {
-        cartService.delete();
+    @DeleteMapping("/{sessionId}")
+    public void deleteCart(@PathVariable("sessionId") String sessionId) {
+        cartService.delete(sessionId);
     }
 }

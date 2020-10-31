@@ -19,6 +19,7 @@ import ru.yvzhelnin.otus.order.model.CustomerData;
 import ru.yvzhelnin.otus.order.model.Order;
 import ru.yvzhelnin.otus.order.repository.CustomerDataRepository;
 import ru.yvzhelnin.otus.order.repository.OrderRepository;
+import ru.yvzhelnin.otus.order.service.CartService;
 import ru.yvzhelnin.otus.order.service.DeliveryService;
 import ru.yvzhelnin.otus.order.service.NotificationService;
 import ru.yvzhelnin.otus.order.service.OrderService;
@@ -52,18 +53,24 @@ public class OrderServiceImpl implements OrderService {
 
     private final WarehouseService warehouseService;
 
+    private final CartService cartService;
+
     private final RestTemplate restTemplate;
 
     public OrderServiceImpl(OrderRepository orderRepository,
                             CustomerDataRepository customerDataRepository,
                             NotificationService notificationService,
-                            DeliveryService deliveryService, WarehouseService warehouseService) {
+                            DeliveryService deliveryService,
+                            WarehouseService warehouseService,
+                            CartService cartService,
+                            RestTemplate restTemplate) {
         this.orderRepository = orderRepository;
         this.customerDataRepository = customerDataRepository;
         this.notificationService = notificationService;
         this.deliveryService = deliveryService;
         this.warehouseService = warehouseService;
-        this.restTemplate = new RestTemplate();
+        this.cartService = cartService;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -102,6 +109,7 @@ public class OrderServiceImpl implements OrderService {
             final String orderId = orderRepository.save(newOrder).getId();
             notificationService.sendNotification(NotificationType.SUCCESS, clientId, orderRequestDto.getCost());
             deliveryService.sendDeliveryRequest(newOrder);
+            cartService.clear();
 
             return orderId;
         } else {

@@ -26,8 +26,8 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     private final RestTemplate restTemplate;
 
-    public WarehouseServiceImpl() {
-        this.restTemplate = new RestTemplate();
+    public WarehouseServiceImpl(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
     }
 
     @Override

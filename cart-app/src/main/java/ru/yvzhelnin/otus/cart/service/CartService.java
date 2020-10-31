@@ -11,5 +11,5 @@ public interface CartService {
 
     Collection<CartItemDto> get() throws IOException;
 
-    void delete();
+    void delete(String sessionId);
 }
