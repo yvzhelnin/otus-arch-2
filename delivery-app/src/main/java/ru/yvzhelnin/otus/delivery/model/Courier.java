@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -33,6 +34,6 @@ public class Courier {
     @Column(name = "phone")
     private String phone;
 
-    @OneToMany(mappedBy = "courier_id")
+    @OneToMany(mappedBy = "courier_id", fetch = FetchType.EAGER)
     private Collection<DeliveryInfo> deliveryInfos;
 }
