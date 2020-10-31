@@ -42,4 +42,10 @@ public class CartRepositoryImpl implements CartRepository {
         }
         return null;
     }
+
+    @Override
+    public void delete() {
+        String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
+        memcachedClient.delete(sessionId);
+    }
 }

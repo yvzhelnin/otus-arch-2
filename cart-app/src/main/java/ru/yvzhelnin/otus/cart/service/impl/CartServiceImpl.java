@@ -26,4 +26,9 @@ public class CartServiceImpl implements CartService {
     public Collection<CartItemDto> get() throws IOException {
         return cartRepository.get();
     }
+
+    @Override
+    public void delete() {
+        cartRepository.delete();
+    }
 }

@@ -10,4 +10,6 @@ public interface CartRepository {
     void saveOrUpdate(Collection<CartItemDto> cartItemDtos) throws IOException;
 
     Collection<CartItemDto> get() throws IOException;
+
+    void delete();
 }
