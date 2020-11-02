@@ -3,10 +3,15 @@ package ru.yvzhelnin.otus.delivery.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import ru.yvzhelnin.otus.delivery.dto.CourierDto;
+import ru.yvzhelnin.otus.delivery.dto.DeliveryResponseDto;
 import ru.yvzhelnin.otus.delivery.dto.TimeSlot;
+import ru.yvzhelnin.otus.delivery.enums.DeliveryStatus;
 import ru.yvzhelnin.otus.delivery.exception.DeliveryServiceException;
 import ru.yvzhelnin.otus.delivery.model.Courier;
+import ru.yvzhelnin.otus.delivery.model.CustomerData;
 import ru.yvzhelnin.otus.delivery.repository.CourierRepository;
+import ru.yvzhelnin.otus.delivery.repository.DeliveryInfoRepository;
 import ru.yvzhelnin.otus.delivery.service.CourierService;
 
 import java.time.LocalDateTime;
@@ -22,8 +27,11 @@ public class CourierServiceImpl implements CourierService {
 
     private final CourierRepository courierRepository;
 
-    public CourierServiceImpl(CourierRepository courierRepository) {
+    private final DeliveryInfoRepository deliveryInfoRepository;
+
+    public CourierServiceImpl(CourierRepository courierRepository, DeliveryInfoRepository deliveryInfoRepository) {
         this.courierRepository = courierRepository;
+        this.deliveryInfoRepository = deliveryInfoRepository;
     }
 
     @Override
@@ -63,5 +71,31 @@ public class CourierServiceImpl implements CourierService {
             }
         }
         throw new DeliveryServiceException("No available couriers found!");
+    }
+
+    @Override
+    public List<CourierDto> getCouriers() {
+        return courierRepository.findAll().stream()
+                .map(courier -> new CourierDto(courier.getId(), courier.getFirstName(), courier.getLastName(), courier.getPhone()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DeliveryResponseDto> getCourierDeliveries(long courierId) {
+        Courier courier = courierRepository.findById(courierId)
+                .orElseThrow(() -> new DeliveryServiceException("No courier with id = " + courierId + " found"));
+
+        return deliveryInfoRepository.findAllByCourierAndDeliveryStatus(courier, DeliveryStatus.SCHEDULED).stream()
+                .map(deliveryInfo -> {
+                    CustomerData customerData = deliveryInfo.getCustomerData();
+
+                    return new DeliveryResponseDto(customerData.getFullName(),
+                            customerData.getPhone(),
+                            customerData.getAddress(),
+                            deliveryInfo.getCost(),
+                            deliveryInfo.getDeliverFrom(),
+                            deliveryInfo.getDeliverTill());
+                })
+                .collect(Collectors.toList());
     }
 }
