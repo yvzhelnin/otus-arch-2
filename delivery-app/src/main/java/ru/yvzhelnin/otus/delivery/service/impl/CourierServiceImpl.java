@@ -89,7 +89,9 @@ public class CourierServiceImpl implements CourierService {
                 .map(deliveryInfo -> {
                     CustomerData customerData = deliveryInfo.getCustomerData();
 
-                    return new DeliveryResponseDto(customerData.getFullName(),
+                    return new DeliveryResponseDto(deliveryInfo.getId(),
+                            deliveryInfo.getDeliveryType(),
+                            customerData.getFullName(),
                             customerData.getPhone(),
                             customerData.getAddress(),
                             deliveryInfo.getCost(),
