@@ -3,7 +3,8 @@ package ru.yvzhelnin.otus.delivery.enums;
 public enum DeliveryStatus {
 
     SCHEDULED,
-    IN_PROGRESS,
-    DELIVERED,
+    IN_ISSUING,
+    ISSUED,
+    IN_RETURNING,
     RETURNED
 }
