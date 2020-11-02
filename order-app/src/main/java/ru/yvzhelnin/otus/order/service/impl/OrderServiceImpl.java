@@ -93,6 +93,7 @@ public class OrderServiceImpl implements OrderService {
         customerData.setPhone(orderRequestDto.getPhoneNumber());
         customerData.setDeliverFrom(orderRequestDto.getDeliverFrom());
         customerData.setDeliverTill(orderRequestDto.getDeliverTill());
+        customerData.setReturnDate(orderRequestDto.getReturnDate());
         customerData = customerDataRepository.save(customerData);
 
         final Order newOrder = new Order(UUID.randomUUID().toString(),

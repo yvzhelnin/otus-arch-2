@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS "order"."customer_data"
     address      VARCHAR(255) NOT NULL,
     phone        VARCHAR(20)  NOT NULL,
     deliver_from timestamptz  NOT NULL,
-    deliver_till timestamptz  NOT NULL
+    deliver_till timestamptz  NOT NULL,
+    return_date  date         NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "order"."order"

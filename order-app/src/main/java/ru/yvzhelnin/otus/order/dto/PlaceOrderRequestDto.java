@@ -3,6 +3,7 @@ package ru.yvzhelnin.otus.order.dto;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public class PlaceOrderRequestDto {
 
     private final LocalDateTime deliverTill;
 
+    private final LocalDate returnDate;
+
     private final Map<String, Long> positions;
 
     private final BigDecimal cost;
@@ -39,6 +42,7 @@ public class PlaceOrderRequestDto {
                                 String address,
                                 LocalDateTime deliverFrom,
                                 LocalDateTime deliverTill,
+                                LocalDate returnDate,
                                 Map<String, Long> positions,
                                 BigDecimal cost,
                                 int version) {
@@ -50,6 +54,7 @@ public class PlaceOrderRequestDto {
         this.address = address;
         this.deliverFrom = deliverFrom;
         this.deliverTill = deliverTill;
+        this.returnDate = returnDate;
         this.positions = positions;
         this.cost = cost;
         this.version = version;

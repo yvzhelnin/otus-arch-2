@@ -7,6 +7,7 @@ import ru.yvzhelnin.otus.order.model.Order;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -23,6 +24,8 @@ public class DeliveryDto implements Serializable {
 
     private final LocalDateTime deliverTill;
 
+    private final LocalDate returnDate;
+
     public DeliveryDto(Order order) {
         CustomerData customerData = order.getCustomerData();
         final String fullName = customerData.getFirstName() + " " + customerData.getLastName();
@@ -33,5 +36,6 @@ public class DeliveryDto implements Serializable {
         this.sum = order.getCost();
         this.deliverFrom = customerData.getDeliverFrom();
         this.deliverTill = customerData.getDeliverTill();
+        this.returnDate = customerData.getReturnDate();
     }
 }
