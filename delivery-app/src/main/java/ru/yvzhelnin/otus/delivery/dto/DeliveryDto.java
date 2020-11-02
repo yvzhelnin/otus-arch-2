@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,13 +22,17 @@ public class DeliveryDto implements Serializable {
 
     private final LocalDateTime deliverTill;
 
+    private final LocalDate returnDate;
+
     public DeliveryDto(CustomerDto customerDto,
                        BigDecimal sum,
                        LocalDateTime deliverFrom,
-                       LocalDateTime deliverTill) {
+                       LocalDateTime deliverTill,
+                       LocalDate returnDate) {
         this.customerDto = customerDto;
         this.sum = sum;
         this.deliverFrom = deliverFrom;
         this.deliverTill = deliverTill;
+        this.returnDate = returnDate;
     }
 }

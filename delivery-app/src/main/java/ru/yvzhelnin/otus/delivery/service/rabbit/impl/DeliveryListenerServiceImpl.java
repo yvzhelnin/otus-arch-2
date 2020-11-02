@@ -54,6 +54,8 @@ public class DeliveryListenerServiceImpl implements DeliveryListenerService {
         deliveryInfo.setCost(deliveryDto.getSum());
         deliveryInfo.setDeliverFrom(deliveryDto.getDeliverFrom());
         deliveryInfo.setDeliverTill(deliveryDto.getDeliverTill());
+        deliveryInfo.setReturnDate(deliveryDto.getReturnDate());
+
         final Courier courier = courierService.findFreeCourier(deliveryInfo.getDeliverFrom(), deliveryInfo.getDeliverTill());
         deliveryInfo.setCourier(courier);
         deliveryInfoRepository.save(deliveryInfo);

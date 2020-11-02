@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -50,6 +51,9 @@ public class DeliveryInfo {
 
     @Column(name = "deliver_till")
     private LocalDateTime deliverTill;
+
+    @Column(name = "return_date")
+    private LocalDate returnDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "courier_id", referencedColumnName = "id")
