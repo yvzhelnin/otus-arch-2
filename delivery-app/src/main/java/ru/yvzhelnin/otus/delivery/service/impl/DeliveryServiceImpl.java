@@ -2,9 +2,12 @@ package ru.yvzhelnin.otus.delivery.service.impl;
 
 import org.springframework.stereotype.Service;
 import ru.yvzhelnin.otus.delivery.enums.DeliveryStatus;
+import ru.yvzhelnin.otus.delivery.enums.DeliveryType;
 import ru.yvzhelnin.otus.delivery.exception.DeliveryServiceException;
+import ru.yvzhelnin.otus.delivery.model.Courier;
 import ru.yvzhelnin.otus.delivery.model.DeliveryInfo;
 import ru.yvzhelnin.otus.delivery.repository.DeliveryInfoRepository;
+import ru.yvzhelnin.otus.delivery.service.CourierService;
 import ru.yvzhelnin.otus.delivery.service.DeliveryService;
 import ru.yvzhelnin.otus.delivery.service.rabbit.NotificationService;
 
@@ -17,9 +20,14 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     private final NotificationService notificationService;
 
-    public DeliveryServiceImpl(DeliveryInfoRepository deliveryInfoRepository, NotificationService notificationService) {
+    private final CourierService courierService;
+
+    public DeliveryServiceImpl(DeliveryInfoRepository deliveryInfoRepository,
+                               NotificationService notificationService,
+                               CourierService courierService) {
         this.deliveryInfoRepository = deliveryInfoRepository;
         this.notificationService = notificationService;
+        this.courierService = courierService;
     }
 
     @Override
@@ -49,6 +57,15 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public void returnDeliveries(List<Long> deliveryIds) {
+        List<DeliveryInfo> deliveryInfos = deliveryInfoRepository.findAllById(deliveryIds);
+        deliveryInfos.forEach(deliveryInfo -> {
+            Courier courier = courierService.findFreeCourier();
+            deliveryInfo.setCourier(courier);
+            deliveryInfo.setDeliveryType(DeliveryType.RETURN);
+            deliveryInfo.setDeliveryStatus(DeliveryStatus.IN_RETURNING);
+            deliveryInfo = deliveryInfoRepository.save(deliveryInfo);
 
+            notificationService.sendNotification(deliveryInfo);
+        });
     }
 }

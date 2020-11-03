@@ -4,6 +4,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.yvzhelnin.otus.delivery.enums.DeliveryType;
 import ru.yvzhelnin.otus.delivery.model.DeliveryInfo;
 import ru.yvzhelnin.otus.delivery.service.rabbit.NotificationService;
 
@@ -22,8 +23,17 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendNotification(DeliveryInfo deliveryInfo) {
-        rabbitTemplate.convertAndSend(notificationQueue.getActualName(), "Запланирована доставка арендуемого инвентаря по адресу: " + deliveryInfo.getCustomerData().getAddress()
-                + "\n с " + deliveryInfo.getDeliverFrom() + " по " + deliveryInfo.getDeliverTill()
-                + ".\nКурьер " + deliveryInfo.getCourier().getFirstName() + " " + deliveryInfo.getCourier().getPhone());
+        rabbitTemplate.convertAndSend(notificationQueue.getActualName(), formMessage(deliveryInfo));
+    }
+
+    private String formMessage(DeliveryInfo deliveryInfo) {
+        if (deliveryInfo.getDeliveryType() == DeliveryType.ISSUE) {
+            return "Запланирована доставка арендуемого инвентаря по адресу: " + deliveryInfo.getCustomerData().getAddress()
+                    + "\n с " + deliveryInfo.getDeliverFrom() + " по " + deliveryInfo.getDeliverTill()
+                    + ".\nКурьер " + deliveryInfo.getCourier().getFirstName() + " " + deliveryInfo.getCourier().getPhone();
+        }
+        return "Запланирован возврат арендуемого инвентаря по адресу: " + deliveryInfo.getCustomerData().getAddress()
+                + " " + deliveryInfo.getReturnDate()
+                + ".\nКурьер " + deliveryInfo.getCourier().getFirstName() + " " + deliveryInfo.getCourier().getPhone();
     }
 }

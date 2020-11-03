@@ -47,6 +47,6 @@ public class DeliveryController {
 
     @PostMapping("/return")
     public void returnDeliveries(@RequestBody List<Long> deliveryIds) {
-
+        deliveryService.returnDeliveries(deliveryIds);
     }
 }

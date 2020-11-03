@@ -35,6 +35,28 @@ public class CourierServiceImpl implements CourierService {
     }
 
     @Override
+    public Courier findFreeCourier() {
+        LOGGER.info("Looking for a free courier");
+        Collection<Courier> allCouriers = courierRepository.findAll();
+        Map<Long, List<TimeSlot>> timeSlots = allCouriers.stream()
+                .map(courier -> courier.getDeliveryInfos()
+                        .stream()
+                        .map(deliveryInfo -> new TimeSlot(courier.getId(), deliveryInfo.getDeliverFrom(), deliveryInfo.getDeliverTill()))
+                        .collect(Collectors.toList()))
+                .flatMap(List::stream)
+                .collect(Collectors.groupingBy(TimeSlot::getCourierId, Collectors.toList()));
+        LOGGER.info("Assembled time slots by couriers: {}", timeSlots);
+        final long availableCourierId = timeSlots.entrySet().stream()
+                .filter(entry -> entry.getValue().size() < 12)
+                .findAny()
+                .orElseThrow(() -> new DeliveryServiceException("No available couriers found!"))
+                .getKey();
+
+        return courierRepository.findById(availableCourierId)
+                .orElseThrow(() -> new DeliveryServiceException("No courier found by id = " + availableCourierId));
+    }
+
+    @Override
     public Courier findFreeCourier(LocalDateTime from, LocalDateTime till) {
         LOGGER.info("Looking for a free courier at time slot from {} till {}", from, till);
         Collection<Courier> allCouriers = courierRepository.findAll();

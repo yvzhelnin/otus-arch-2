@@ -11,5 +11,7 @@ import java.util.List;
 @Repository
 public interface DeliveryInfoRepository extends CrudRepository<DeliveryInfo, Long> {
 
+    List<DeliveryInfo> findAllById(Iterable<Long> ids);
+
     List<DeliveryInfo> findAllByCourierAndDeliveryStatus(Courier courier, DeliveryStatus deliveryStatus);
 }

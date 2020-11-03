@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface CourierService {
 
+    Courier findFreeCourier();
+
     Courier findFreeCourier(LocalDateTime from, LocalDateTime till);
 
     List<CourierDto> getCouriers();
