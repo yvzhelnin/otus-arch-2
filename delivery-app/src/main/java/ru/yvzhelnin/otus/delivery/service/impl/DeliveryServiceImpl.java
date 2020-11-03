@@ -8,6 +8,8 @@ import ru.yvzhelnin.otus.delivery.repository.DeliveryInfoRepository;
 import ru.yvzhelnin.otus.delivery.service.DeliveryService;
 import ru.yvzhelnin.otus.delivery.service.rabbit.NotificationService;
 
+import java.util.List;
+
 @Service
 public class DeliveryServiceImpl implements DeliveryService {
 
@@ -43,5 +45,10 @@ public class DeliveryServiceImpl implements DeliveryService {
             default:
                 throw new DeliveryServiceException("It's impossible to change delivery status from " + deliveryInfo.getDeliveryStatus() + " to " + status);
         }
+    }
+
+    @Override
+    public void returnDeliveries(List<Long> deliveryIds) {
+
     }
 }

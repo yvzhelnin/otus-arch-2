@@ -24,3 +24,5 @@ service:
   protocol: TCP
   portName: service-web
   port: 8000
+app:
+  returnDeliveryUrl: http://delivery-appl-service.crud-app.svc.cluster.local:8000/api/delivery/return
