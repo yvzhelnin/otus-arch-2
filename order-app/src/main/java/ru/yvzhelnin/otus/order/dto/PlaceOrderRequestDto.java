@@ -32,6 +32,8 @@ public class PlaceOrderRequestDto {
 
     private final BigDecimal cost;
 
+    private final BigDecimal deposit;
+
     private final int version;
 
     public PlaceOrderRequestDto(String clientId,
@@ -45,6 +47,7 @@ public class PlaceOrderRequestDto {
                                 LocalDate returnDate,
                                 Map<String, Long> positions,
                                 BigDecimal cost,
+                                BigDecimal deposit,
                                 int version) {
         this.clientId = clientId;
         this.firstName = firstName;
@@ -57,6 +60,7 @@ public class PlaceOrderRequestDto {
         this.returnDate = returnDate;
         this.positions = positions;
         this.cost = cost;
+        this.deposit = deposit;
         this.version = version;
     }
 }

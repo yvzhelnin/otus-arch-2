@@ -29,7 +29,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public void sendDeliveryRequest(Order order) throws JsonProcessingException {
-        final DeliveryDto deliveryDto = new DeliveryDto(order, returnDate);
+        final DeliveryDto deliveryDto = new DeliveryDto(order);
         final String message = objectMapper.writeValueAsString(deliveryDto);
         rabbitTemplate.convertAndSend(deliveryQueue.getActualName(), message);
     }

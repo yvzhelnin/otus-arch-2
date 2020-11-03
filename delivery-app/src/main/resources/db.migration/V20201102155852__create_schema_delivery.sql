@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS "delivery"."delivery_info"
     customer_data_id BIGINT      NOT NULL,
     delivery_type    VARCHAR(20) NOT NULL,
     delivery_status  VARCHAR(20) NOT NULL,
-    cost             NUMERIC(17, 2),
+    deposit          NUMERIC(17, 2),
     deliver_from     timestamptz NOT NULL,
     deliver_till     timestamptz NOT NULL,
     return_date      date        NOT NULL,

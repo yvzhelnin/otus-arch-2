@@ -46,6 +46,9 @@ public class Order {
     @Column(name = "cost")
     private BigDecimal cost;
 
+    @Column(name = "deposit")
+    private BigDecimal deposit;
+
     @Column
     private int version;
 }

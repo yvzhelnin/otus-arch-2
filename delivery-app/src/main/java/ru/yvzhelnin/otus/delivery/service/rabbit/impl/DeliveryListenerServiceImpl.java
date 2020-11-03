@@ -51,7 +51,7 @@ public class DeliveryListenerServiceImpl implements DeliveryListenerService {
         deliveryInfo.setCustomerData(customerData);
         deliveryInfo.setDeliveryType(DeliveryType.ISSUE);
         deliveryInfo.setDeliveryStatus(DeliveryStatus.SCHEDULED);
-        deliveryInfo.setCost(deliveryDto.getSum());
+        deliveryInfo.setDeposit(deliveryDto.getDeposit());
         deliveryInfo.setDeliverFrom(deliveryDto.getDeliverFrom());
         deliveryInfo.setDeliverTill(deliveryDto.getDeliverTill());
         deliveryInfo.setReturnDate(deliveryDto.getReturnDate());

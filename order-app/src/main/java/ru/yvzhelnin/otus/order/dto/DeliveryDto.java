@@ -18,7 +18,7 @@ public class DeliveryDto implements Serializable {
 
     private final CustomerDto customerDto;
 
-    private final BigDecimal sum;
+    private final BigDecimal deposit;
 
     private final LocalDateTime deliverFrom;
 
@@ -33,7 +33,7 @@ public class DeliveryDto implements Serializable {
                 customerData.getId(),
                 customerData.getPhone(),
                 customerData.getAddress());
-        this.sum = order.getCost();
+        this.deposit = order.getDeposit();
         this.deliverFrom = customerData.getDeliverFrom();
         this.deliverTill = customerData.getDeliverTill();
         this.returnDate = customerData.getReturnDate();

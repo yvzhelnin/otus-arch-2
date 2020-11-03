@@ -43,8 +43,8 @@ public class DeliveryInfo {
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus;
 
-    @Column(name = "cost")
-    private BigDecimal cost;
+    @Column(name = "deposit")
+    private BigDecimal deposit;
 
     @Column(name = "deliver_from")
     private LocalDateTime deliverFrom;

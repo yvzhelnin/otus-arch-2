@@ -94,7 +94,7 @@ public class CourierServiceImpl implements CourierService {
                             customerData.getFullName(),
                             customerData.getPhone(),
                             customerData.getAddress(),
-                            deliveryInfo.getCost(),
+                            deliveryInfo.getDeposit(),
                             deliveryInfo.getDeliverFrom(),
                             deliveryInfo.getDeliverTill());
                 })

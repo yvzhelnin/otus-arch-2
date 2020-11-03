@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS "order"."order"
     customer_data_id VARCHAR(50)    NOT NULL,
     status           VARCHAR(50)    NOT NULL,
     cost             NUMERIC(17, 2) NOT NULL,
+    deposit          NUMERIC(17, 2) NOT NULL,
     version          INTEGER        NOT NULL,
     FOREIGN KEY (customer_data_id) REFERENCES "order"."customer_data" ("id") ON DELETE CASCADE
 );

@@ -101,6 +101,7 @@ public class OrderServiceImpl implements OrderService {
                 customerData,
                 OrderStatus.NEW,
                 orderRequestDto.getCost(),
+                orderRequestDto.getDeposit(),
                 orderRequestDto.getVersion());
 
         String withdrawalResult = payForOrder(clientId, orderRequestDto);
