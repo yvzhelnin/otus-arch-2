@@ -55,6 +55,11 @@ spec:
                 secretKeyRef:
                   name: rabbitmq-secrets
                   key: order_notification_queue
+            - name: warehouse_app_url_change_status
+              valueFrom:
+                secretKeyRef:
+                  name: delivery-app-secrets
+                  key: warehouse_app_url_change_status
           livenessProbe:
             httpGet:
               port: {{ .Values.deployment.container.port }}

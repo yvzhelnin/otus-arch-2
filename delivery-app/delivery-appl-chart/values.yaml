@@ -1,5 +1,7 @@
 replicaCount: 1
 
+app:
+  changeStatusUrl: http://warehouse-appl-service.crud-app.svc.cluster.local:8000/api/equipment
 deployment:
   name: delivery-appl-deployment
   image:
