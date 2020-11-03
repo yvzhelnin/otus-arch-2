@@ -10,5 +10,7 @@ public interface EquipmentService {
 
     EquipmentStatus changeStatus(Long inventoryNumber, EquipmentStatus newStatus);
 
+    EquipmentStatus changeStatus(String customerPhone, EquipmentStatus newStatus);
+
     Map<String, Long> getBalance();
 }

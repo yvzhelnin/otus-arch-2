@@ -36,6 +36,12 @@ public class EquipmentController {
         return equipmentService.changeStatus(inventoryNumber, newStatus);
     }
 
+    @PutMapping("/{customerPhone}")
+    public EquipmentStatus changeEquipmentStatus(@PathVariable("customerPhone") String customerPhone,
+                                                 @RequestParam("newStatus") EquipmentStatus newStatus) {
+        return equipmentService.changeStatus(customerPhone, newStatus);
+    }
+
     @GetMapping("/balance")
     public Map<String, Long> getBalance() {
         return equipmentService.getBalance();

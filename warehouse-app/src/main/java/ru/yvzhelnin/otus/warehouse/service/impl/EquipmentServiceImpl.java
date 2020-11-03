@@ -4,12 +4,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yvzhelnin.otus.warehouse.enums.EquipmentStatus;
 import ru.yvzhelnin.otus.warehouse.exception.WarehouseException;
+import ru.yvzhelnin.otus.warehouse.model.BookingLog;
 import ru.yvzhelnin.otus.warehouse.model.Equipment;
 import ru.yvzhelnin.otus.warehouse.model.Model;
+import ru.yvzhelnin.otus.warehouse.repository.BookingLogRepository;
 import ru.yvzhelnin.otus.warehouse.repository.EquipmentRepository;
 import ru.yvzhelnin.otus.warehouse.repository.ModelRepository;
 import ru.yvzhelnin.otus.warehouse.service.EquipmentService;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -22,9 +25,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     private final EquipmentRepository equipmentRepository;
 
-    public EquipmentServiceImpl(ModelRepository modelRepository, EquipmentRepository equipmentRepository) {
+    private final BookingLogRepository bookingLogRepository;
+
+    public EquipmentServiceImpl(ModelRepository modelRepository,
+                                EquipmentRepository equipmentRepository,
+                                BookingLogRepository bookingLogRepository) {
         this.modelRepository = modelRepository;
         this.equipmentRepository = equipmentRepository;
+        this.bookingLogRepository = bookingLogRepository;
     }
 
     @Override
@@ -80,6 +88,17 @@ public class EquipmentServiceImpl implements EquipmentService {
             default:
                 throw new WarehouseException("It's impossible to change status from " + currentStatus + " to " + newStatus);
         }
+    }
+
+    @Override
+    public EquipmentStatus changeStatus(String customerPhone, EquipmentStatus newStatus) {
+        Collection<Long> inventoryNumbers = bookingLogRepository.findAllByCustomerPhoneNumber(customerPhone).stream()
+                .map(BookingLog::getEquipment)
+                .map(Equipment::getInventoryNumber)
+                .collect(Collectors.toList());
+        inventoryNumbers.forEach(inventoryNumber -> changeStatus(inventoryNumber, newStatus));
+
+        return newStatus;
     }
 
     @Override
