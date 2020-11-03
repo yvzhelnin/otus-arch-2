@@ -2,8 +2,8 @@ package ru.yvzhelnin.otus.returnal.service.impl;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.yvzhelnin.otus.returnal.enums.DeliveryStatus;
@@ -29,6 +29,7 @@ public class ReturnServiceImpl implements ReturnService {
         this.deliveryInfoRepository = deliveryInfoRepository;
     }
 
+    @Scheduled(cron = "@hourly")
     @Override
     public void distributeReturnDeliveries() {
         List<Long> ids = deliveryInfoRepository.findAllByDeliveryStatusAndReturnDateAndCourierIsNull(DeliveryStatus.ISSUED,
@@ -36,7 +37,6 @@ public class ReturnServiceImpl implements ReturnService {
                 .map(DeliveryInfo::getId)
                 .collect(Collectors.toList());
 
-        HttpHeaders headers = new HttpHeaders();
         Map<String, String> parameters = new HashMap<>();
         HttpEntity<List<Long>> requestEntity = new HttpEntity<>(ids);
         new RestTemplate().exchange(returnUrl, HttpMethod.POST, requestEntity, String.class, parameters);
