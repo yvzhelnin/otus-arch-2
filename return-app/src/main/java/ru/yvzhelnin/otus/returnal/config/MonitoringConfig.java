@@ -16,6 +16,6 @@ public class MonitoringConfig {
      */
     @Bean
     public MeterRegistryCustomizer<MeterRegistry> metricsCommonTags() {
-        return registry -> registry.config().commonTags("application", "Order Application");
+        return registry -> registry.config().commonTags("application", "Return Application");
     }
 }
