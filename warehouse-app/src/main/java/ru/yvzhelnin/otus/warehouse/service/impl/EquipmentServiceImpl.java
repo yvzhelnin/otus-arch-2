@@ -73,14 +73,8 @@ public class EquipmentServiceImpl implements EquipmentService {
                     equipmentRepository.save(equipment);
                 }
                 return equipment.getEquipmentStatus();
-            case AT_RETURNING:
-                if (currentStatus == EquipmentStatus.ISSUED) {
-                    equipment.setEquipmentStatus(EquipmentStatus.AT_RETURNING);
-                    equipmentRepository.save(equipment);
-                }
-                return equipment.getEquipmentStatus();
             case AVAILABLE:
-                if (currentStatus == EquipmentStatus.AT_RETURNING) {
+                if (currentStatus == EquipmentStatus.ISSUED) {
                     equipment.setEquipmentStatus(EquipmentStatus.AVAILABLE);
                     equipmentRepository.save(equipment);
                 }

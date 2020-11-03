@@ -7,8 +7,10 @@ import ru.yvzhelnin.otus.delivery.exception.DeliveryServiceException;
 import ru.yvzhelnin.otus.delivery.model.Courier;
 import ru.yvzhelnin.otus.delivery.model.DeliveryInfo;
 import ru.yvzhelnin.otus.delivery.repository.DeliveryInfoRepository;
+import ru.yvzhelnin.otus.delivery.service.BillingService;
 import ru.yvzhelnin.otus.delivery.service.CourierService;
 import ru.yvzhelnin.otus.delivery.service.DeliveryService;
+import ru.yvzhelnin.otus.delivery.service.WarehouseService;
 import ru.yvzhelnin.otus.delivery.service.rabbit.NotificationService;
 
 import java.util.List;
@@ -22,12 +24,20 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     private final CourierService courierService;
 
+    private final WarehouseService warehouseService;
+
+    private final BillingService billingService;
+
     public DeliveryServiceImpl(DeliveryInfoRepository deliveryInfoRepository,
                                NotificationService notificationService,
-                               CourierService courierService) {
+                               CourierService courierService,
+                               WarehouseService warehouseService,
+                               BillingService billingService) {
         this.deliveryInfoRepository = deliveryInfoRepository;
         this.notificationService = notificationService;
         this.courierService = courierService;
+        this.warehouseService = warehouseService;
+        this.billingService = billingService;
     }
 
     @Override
@@ -47,6 +57,16 @@ public class DeliveryServiceImpl implements DeliveryService {
             case IN_ISSUING:
                 if (status == DeliveryStatus.ISSUED) {
                     deliveryInfo.setDeliveryStatus(status);
+                    warehouseService.issueEquipment(deliveryInfo.getCustomerData().getPhone());
+
+                    return deliveryInfoRepository.save(deliveryInfo).getDeliveryStatus();
+                }
+            case IN_RETURNING:
+                if (status == DeliveryStatus.RETURNED) {
+                    deliveryInfo.setDeliveryStatus(status);
+                    warehouseService.returnEquipment(deliveryInfo.getCustomerData().getPhone());
+                    warehouseService.unBookEquipment(deliveryInfo.getCustomerData().getPhone());
+                    billingService.returnDeposit();
 
                     return deliveryInfoRepository.save(deliveryInfo).getDeliveryStatus();
                 }
