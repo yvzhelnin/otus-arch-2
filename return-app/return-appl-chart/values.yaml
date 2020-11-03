@@ -1,0 +1,26 @@
+replicaCount: 1
+
+deployment:
+  name: return-appl-deployment
+  image:
+    repo: yvzhelnin/return-appl
+    pullPolicy: Always
+  label: return-java-appl
+  container:
+    name: return-pod-java
+    portName: web
+    port: 80
+  readiness:
+    initialDelaySeconds: 40
+    periodSeconds: 5
+    timeoutSeconds: 2
+  liveness:
+    initialDelaySeconds: 50
+    periodSeconds: 5
+service:
+  name: return-appl-service
+  label: return-appl-service-label
+  type: NodePort
+  protocol: TCP
+  portName: service-web
+  port: 8000
