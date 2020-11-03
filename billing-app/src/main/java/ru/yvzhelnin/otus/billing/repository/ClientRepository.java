@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface ClientRepository extends CrudRepository<Client, String> {
 
+    Optional<Client> findByPhone(String phone);
 }

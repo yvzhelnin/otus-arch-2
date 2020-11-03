@@ -72,6 +72,19 @@ public class AccountController {
                 .body(result);
     }
 
+    @PostMapping("/balance")
+    public ResponseEntity withdraw(@RequestParam("clientPhoneNumber") String clientPhoneNumber,
+                                   @RequestParam("sum") BigDecimal sum)
+            throws ClientNotFoundException, AccountNotFoundException {
+        WithdrawResultType result = accountService.withdrawByPhone(clientPhoneNumber, sum);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(WITHDRAW_RESULT_HEADER, result.name());
+
+        return ResponseEntity.ok()
+                .headers(responseHeaders)
+                .body(result);
+    }
+
     @GetMapping("/balance/{clientId}")
     public BalanceDto getBalance(@RequestHeader(CLIENT_ID_HEADER) String clientIdHeaderValue,
                                  @PathVariable("clientId") String clientId) throws ClientNotFoundException, AccountNotFoundException, PermissionDeniedException {

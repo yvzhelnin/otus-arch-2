@@ -14,5 +14,7 @@ public interface AccountService {
 
     WithdrawResultType withdraw(String clientId, BigDecimal sum) throws ClientNotFoundException, AccountNotFoundException;
 
+    WithdrawResultType withdrawByPhone(String clientPhoneNumber, BigDecimal sum) throws ClientNotFoundException, AccountNotFoundException;
+
     BigDecimal getBalance(String clientId) throws ClientNotFoundException, AccountNotFoundException;
 }

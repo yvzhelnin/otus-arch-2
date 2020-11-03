@@ -50,8 +50,21 @@ public class AccountServiceImpl implements AccountService {
     public WithdrawResultType withdraw(String clientId, BigDecimal sum) throws ClientNotFoundException, AccountNotFoundException {
         final Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Клиент с идентификатором " + clientId + " не найден"));
+
+        return withdraw(client, sum);
+    }
+
+    @Override
+    public WithdrawResultType withdrawByPhone(String clientPhoneNumber, BigDecimal sum) throws ClientNotFoundException, AccountNotFoundException {
+        final Client client = clientRepository.findByPhone(clientPhoneNumber)
+                .orElseThrow(() -> new ClientNotFoundException("Клиент с номером телефона " + clientPhoneNumber + " не найден"));
+
+        return withdraw(client, sum);
+    }
+
+    private WithdrawResultType withdraw(Client client, BigDecimal sum) throws AccountNotFoundException {
         Account account = accountRepository.findByClient(client)
-                .orElseThrow(() -> new AccountNotFoundException("Для клиента с идентификатором " + clientId + " не найден лицевой счёт"));
+                .orElseThrow(() -> new AccountNotFoundException("Для клиента с идентификатором " + client.getId() + " не найден лицевой счёт"));
         final BigDecimal newBalance = account.getBalance().subtract(sum);
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
             return WithdrawResultType.NOT_ENOUGH_MONEY;
