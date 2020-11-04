@@ -1,6 +1,8 @@
 package ru.yvzhelnin.otus.delivery.service;
 
+import java.math.BigDecimal;
+
 public interface BillingService {
 
-    void returnDeposit();
+    void returnDeposit(String clientPhoneNumber, BigDecimal depositSum);
 }

@@ -66,7 +66,7 @@ public class DeliveryServiceImpl implements DeliveryService {
                     deliveryInfo.setDeliveryStatus(status);
                     warehouseService.returnEquipment(deliveryInfo.getCustomerData().getPhone());
                     warehouseService.unBookEquipment(deliveryInfo.getCustomerData().getPhone());
-                    billingService.returnDeposit();
+                    billingService.returnDeposit(deliveryInfo.getCustomerData().getPhone(), deliveryInfo.getDeposit());
 
                     return deliveryInfoRepository.save(deliveryInfo).getDeliveryStatus();
                 }

@@ -57,8 +57,8 @@ public class AccountController {
 
     @PostMapping("/balance/{clientId}")
     public ResponseEntity withdraw(@RequestHeader(CLIENT_ID_HEADER) String clientIdHeaderValue,
-                               @PathVariable("clientId") String clientId,
-                               @RequestParam("sum") BigDecimal sum)
+                                   @PathVariable("clientId") String clientId,
+                                   @RequestParam("sum") BigDecimal sum)
             throws ClientNotFoundException, AccountNotFoundException, PermissionDeniedException {
         if (!Objects.equals(clientIdHeaderValue, clientId)) {
             throw new PermissionDeniedException("Недостаточно прав для действия с аккаунтом другого пользователя");
